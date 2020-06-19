@@ -1,4 +1,4 @@
-##Covid Event Spread Checker
+## Covid Event Spread Checker
 
 **Goal**
 The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area (primarily North America). The user will enter a date and a location and the website will generate a response with about the spread (such as daily new cases etc) from that date and three weeks forward. Ideally there will be a graph as well as data outlining the change in cases. 
