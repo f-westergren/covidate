@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Covid Event Search{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tailwind.css') }}">
+</head>
+<body>
+  <h1 class='text-4xl font-bold text-center text-blue-500'>Hello World!</h1>
+  <div class="container">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{category}}" role='alert'>{{message}}</div>
+  {% endfor %}
+    {% block content %}
+    {% endblock %}
+  </div>
+</body>
+</html>
