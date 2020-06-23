@@ -2,16 +2,16 @@
 
 **Goal**
 
-The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area (primarily North America). The user will enter a date and a location and the website will generate a response with about the spread (such as daily new cases etc) from that date and three weeks forward. 
+The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area in USA (and later hopefully more countries). The user will enter a date and a location and the website will generate a response with about the spread (such as daily new cases etc) from that date and three weeks forward. 
 
 **Expected Users**
 
 The website does not aim to provide a service to a specific demographic, it will simply provide a quick way for people to check the spread from one date to another without having to go through complex sites with a lot of charts and statistics. 
 
 
-**API**
+**Data**
 
-The website will use a geolocation API such as Mapquest or Google Maps API to let the user select a location for their search, and using that location it will get data from a suitable COVID-19 API. Most of the data (if not all) will be pulled from NovelCOVID API (https://disease.sh/docs), which provides detailed historical information per county, province and subregion. 
+The website will use a geolocation API such as Mapquest (https://developer.mapquest.com/documentation/geocoding-api/) to let the user select a location for their search, and using that location it will get data from a suitable COVID-19 API. Most of the data (if not all) will be pulled from NovelCOVID API (https://disease.sh/docs), which provides detailed historical information per county, province and subregion. 
 
 The database schema consists of two tables - users and searches. It can be found here: https://dbdiagram.io/d/5eeaab869ea313663b3ab643.
 
