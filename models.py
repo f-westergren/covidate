@@ -1,13 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 
-db = SQLALchemy()
+db = SQLAlchemy()
 
 class User(db.Model):
 	""" Users """
 
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	name = db.column(db.String(30), nullable=False)
+	name = db.Column(db.String(30), nullable=False)
 	location = db.Column(db.String)
 	password = db.Column(db.String(30), nullable=False)
 
