@@ -1,34 +1,38 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from flask_bcrypt import Bcrypt
 
-from app import login
+from app import db, login
 
-db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 class User(UserMixin, db.Model):
 	""" Users """
 
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	name = db.Column(db.String(30), nullable=False)
+	name = db.Column(db.String, nullable=False)
 	email = db.Column(db.String, nullable=False, unique=True)
 	location = db.Column(db.String)
-	password = db.Column(db.String(30), nullable=False)
+	password = db.Column(db.Text, nullable=False)
 
 	def __repr__(self):
 		return f'<User id={self.id} name={self.name}>'
 	
 	@classmethod
-	def register(cls, username, pwd):
+	def register(cls, email, password, name, location=''):
 		"""Register user with hashed password and return user"""
 	
-	hashed = bcrypt.generate_password_hash(pwd)
+		hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
-	#turn bytestring into normal (unicode UTF8) string
-	hashed_utf8 = hashed.decode("utf8")
-
-	return cls(email=email, password=password)
+		user = User(
+			email=email,
+			password=hashed_pwd,
+			name=name,
+			location=location
+		)
+		
+		db.session.add(user)
+		return user
 
 	@classmethod
 	def authenticate(cls, email, password):
