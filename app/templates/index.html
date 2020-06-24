@@ -2,6 +2,37 @@
 
 
 {% block content %}
-  <div class="w-full"></div>
+<div class="flex mb-4">
+  <div class="w-full">
+    <h1 class='text-5xl font-bold text-center text-blue-800 uppercase'>Covid-19 Event Search</h1>
+    <h2 class='text-2xl font-bold text-center text-blue-400'>Search for a date and get data on covid spread</h2> 
+  </div>
+</div>
+
+<div class="flex mb-4 justify-center">
+  <div class="w-2/4 bg-gray-400">
+      <div class="flex flex-wrap my-4">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <label class="block uppercase tracking-wide text-gray-700 text-md font-bold mb-2" for="grid-first-name">
+            Location
+          </label>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane">
+          <p class="text-red-500 text-xs italic">Please fill out this field.</p>
+        </div>
+        <div class="w-full md:w-1/2 px-3">
+          <label class="block uppercase tracking-wide text-gray-700 text-md font-bold mb-2" for="grid-last-name">
+            Date
+          </label>
+          <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe">
+        </div>
+      </div>    
+  </div>
+
+    <form>
+
+    </form>
+  </div>
+</div>
+  
 
 {% endblock %}

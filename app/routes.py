@@ -9,9 +9,9 @@ from app.models import User, Search
 from app import app
 
 @app.route('/')
-@app.route('/index')
 def index():
-	return render_template("index.html")
+
+	return render_template("index.html", user=current_user)
 
 ##############################################################################
 # Login and logout routes
@@ -20,7 +20,7 @@ def index():
 def login():
 
 	if current_user.is_authenticated:
-		return redirect(url_for('show_dashboard'))
+		return redirect(url_for('/'))
 	
 	form = LoginForm()
 
@@ -36,21 +36,17 @@ def login():
 		login_user(user, remember=form.remember_me.data)
 		next_page = request.args.get('next')
 		if not next_page or url_parse(next_page).netloc != '':
-			next_page = url_for('show_dashboard')
+			next_page = url_for('index')
 		return redirect(next_page)
 
-
-		
-	
 	return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout():
 	logout_user()
-	return redirect(url_for('index'))
+	return redirect(url_for('/'))
 
-@app.route('/dashboard')
-@login_required
-def show_dashboard():
-	user = current_user
-	return render_template('dashboard.html', user=user)
+
+
+
+
