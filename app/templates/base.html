@@ -9,7 +9,12 @@
 <body class="bg-gray-100">
   {% include 'navbar.html' %}
     {% for category, message in get_flashed_messages(with_categories=True) %}
-    <div class="alert alert-{{category}}" role='alert'>{{message}}</div>
+  <div 
+    class="bg-red-100 border border-{{category}}-400 text-{{category}}-700 px-4 py-3 rounded relative" 
+    role="alert"
+  >
+    <span class="block sm:inline">{{message}}</span>
+  </div>
   {% endfor %}
     {% block content %}
     {% endblock %}

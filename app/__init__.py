@@ -7,6 +7,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db  = SQLAlchemy(app)
 login = LoginManager(app)
-login.login_view = 'dashboard'
+login.login_view = 'show_dashboard'
 
 from app import routes
