@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
 		"""
 		u = User.query.filter_by(email=email).first()
 
-		if u and bcrypt.check_password_hash(u.password, pwd):
+		if u and bcrypt.check_password_hash(u.password, password):
 			#return user instance
 			return u
 		else:
