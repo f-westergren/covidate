@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
 
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-	name = db.Column(db.String, nullable=False)
+	username = db.Column(db.String, nullable=False, unique=True)
 	email = db.Column(db.String, nullable=False, unique=True)
 	location = db.Column(db.String)
 	password = db.Column(db.Text, nullable=False)
@@ -19,12 +19,13 @@ class User(UserMixin, db.Model):
 		return f'<User id={self.id} name={self.name}>'
 	
 	@classmethod
-	def register(cls, email, password, name, location=''):
+	def register(cls, username, email, password, name, location=''):
 		"""Register user with hashed password and return user"""
 	
 		hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
 
 		user = User(
+			username=username,
 			email=email,
 			password=hashed_pwd,
 			name=name,
@@ -35,12 +36,12 @@ class User(UserMixin, db.Model):
 		return user
 
 	@classmethod
-	def authenticate(cls, email, password):
+	def authenticate(cls, username, password):
 		"""Validate that user exists & password is correct.
 
 		Return user if valid, else return false.
 		"""
-		u = User.query.filter_by(email=email).first()
+		u = User.query.filter_by(username=username).first()
 
 		if u and bcrypt.check_password_hash(u.password, password):
 			#return user instance
