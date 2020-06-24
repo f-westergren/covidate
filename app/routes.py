@@ -14,7 +14,7 @@ def index():
 	return render_template("index.html", user=current_user)
 
 ##############################################################################
-# Login and logout routes
+# Login, logout and register routes
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -45,6 +45,46 @@ def login():
 def logout():
 	logout_user()
 	return redirect(url_for('/'))
+
+##############################################################################
+# User routes
+
+@app.route('/user/<int:user_id>')
+@login_required
+def user(user_id):
+	user = current_user
+
+	if user_id != user.id:
+		return redirect('/')
+	
+	return render_template('user.html', user=user)
+
+# @app.route('/users/<int:user_id>/profile', methods=['GET', 'POST'])
+
+	# View and edit profile
+
+# @app.route('/users/<int:user_id>/searches')
+
+	# View all user's searches
+
+##############################################################################
+# Searches
+
+# @app.route('/searches', methods=['GET', 'POST'])
+
+	# View and create search
+	# Option to create account and save search?
+	# If logged in, option to save search
+
+# @app.route('searches/<int:search_id>', methods=['GET', 'POST'])
+# @login_required
+
+	# View and edit saved searches
+
+# @app.route('searches/<int:search_id>/delete')
+# @login_required
+
+	# Delete saved search
 
 
 
