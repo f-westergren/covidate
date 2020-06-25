@@ -1,23 +1,44 @@
-from flask import redirect, render_template, url_for, request, flash
+from flask import redirect, render_template, url_for, request, flash, session
 from werkzeug.urls import url_parse
+import requests
 
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
-from app.forms import LoginForm
+from app.forms import LoginForm, SearchForm
 from app.models import User, Search
 
 from app import app
 
 @app.route('/')
 def index():
+	""" Show index page with search form """
 
-	return render_template("index.html", user=current_user)
+	form = SearchForm()
+
+	if form.validate_on_submit():
+		location = form.location.data
+		date = form.date.data
+		description = form.description.data or None
+		# Set user_id if user is logged in.
+		user_id = current_user.id if current_user.is_authenticated else None
+		
+		search = Search(location, date, description, user_id)
+
+		db.session.add(search)
+		db.session.commit()
+
+		session['search'] = search.id
+		
+		return redirect(url_for('searches'))
+
+	return render_template("index.html", user=current_user, form=form)
 
 ##############################################################################
 # Login, logout and register routes
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+	""" Show login page with login form """
 
 	if current_user.is_authenticated:
 		return redirect(url_for('/'))
@@ -44,47 +65,57 @@ def login():
 @app.route('/logout')
 def logout():
 	logout_user()
-	return redirect(url_for('/'))
+	return redirect(url_for('index'))
 
 ##############################################################################
 # User routes
 
-@app.route('/user/<int:user_id>')
-@login_required
-def user(user_id):
-	user = current_user
+# @app.route('/user/<username>')
+# @login_required
+# def user(username):
+# 	""" Show user dashboard with three searches thumbnails """
 
-	if user_id != user.id:
-		return redirect('/')
+# 	if username != current_user.username:
+# 		return redirect('/')
 	
-	return render_template('user.html', user=user)
+# 	return render_template('user.html', user=user)
 
-# @app.route('/users/<int:user_id>/profile', methods=['GET', 'POST'])
+# @app.route('/users/<username>/profile', methods=['GET', 'POST'])
+# @login_required
+# def user_profile(username):
+# 	""" Show user profile page with edit form """
 
-	# View and edit profile
+# @app.route('/users/<username>/searches')
+# @login_required
+# def user_searches(username)
+# 	""" Show user's searches thumbnails """
 
-# @app.route('/users/<int:user_id>/searches')
+# @app.route('/users/<username>/delete', methods=['POST'])
+# @login_required
+# def delete_user(username)
+# 	""" Delete user """
 
-	# View all user's searches
+	# Password required for this
 
 ##############################################################################
 # Searches
 
-# @app.route('/searches', methods=['GET', 'POST'])
+@app.route('/searches', methods=['GET', 'POST'])
+def searches():
+	""" Show search or search result """
 
-	# View and create search
 	# Option to create account and save search?
 	# If logged in, option to save search
 
-# @app.route('searches/<int:search_id>', methods=['GET', 'POST'])
+# @app.route('/searches/<int:search_id>', methods=['GET', 'POST'])
 # @login_required
-
-	# View and edit saved searches
+# def search(search_id):
+# 	""" Show and edit search """
 
 # @app.route('searches/<int:search_id>/delete')
 # @login_required
-
-	# Delete saved search
+# 	def delete_search(search_id):
+# 		"""Delete saved search"""
 
 
 
