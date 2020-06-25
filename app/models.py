@@ -16,10 +16,10 @@ class User(UserMixin, db.Model):
 	password = db.Column(db.Text, nullable=False)
 
 	def __repr__(self):
-		return f'<User id={self.id} name={self.name}>'
+		return f'<User id={self.id} name={self.username} location={self.location} email={self.email}>'
 	
 	@classmethod
-	def register(cls, username, email, password, name, location=''):
+	def register(cls, username, email, password, location=''):
 		"""Register user with hashed password and return user"""
 	
 		hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -28,7 +28,6 @@ class User(UserMixin, db.Model):
 			username=username,
 			email=email,
 			password=hashed_pwd,
-			name=name,
 			location=location
 		)
 		
