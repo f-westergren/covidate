@@ -54,13 +54,13 @@ class Search(db.Model):
 	__tablename__ = 'searches'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	location = db.Column(db.String, nullable=False)
-	search_date = db.Column(db.DateTime, nullable=False)
+	date = db.Column(db.DateTime, nullable=False)
 	created_at = db.Column(db.DateTime, nullable=False)
 	description = db.Column(db.Text, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
 	def __repr__(self):
-		return f'<Search id={self.id} location={self.location} search_date={self.search_date} user_id={self.user_id}>'
+		return f'<Search id={self.id} location={self.location} date={self.date} user_id={self.user_id}>'
 
 @login.user_loader
 def load_user(id):
