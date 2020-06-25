@@ -7,6 +7,7 @@ from flask_login import LoginManager, current_user, login_user, logout_user, log
 
 from app.forms import LoginForm, SearchForm
 from app.models import User, Search
+from app.helper import get_state_and_county
 
 from app import app, db
 
@@ -17,26 +18,11 @@ def index():
 	form = SearchForm()
 
 	if form.validate_on_submit():
-		location = form.location.data
-		date = form.date.data
-		description = form.description.data or None
+		session['location'] = form.location.data
+		session['date'] = form.date.data
+		session['description'] = form.description.data or None
 		# Set user_id if user is logged in.
-		user_id = current_user.id if current_user.is_authenticated else None
-		
-		search = Search(
-			location=location, 
-			date=date,
-			description=description,  
-			created_at=date.today(), 
-			user_id=user_id
-		)
-
-		print('search', search)
-		
-		db.session.add(search)
-		db.session.commit()
-
-		session['search'] = search.id
+		session['user_id'] = current_user.id if current_user.is_authenticated else None
 
 		return redirect(url_for('searches'))
 
@@ -111,8 +97,10 @@ def logout():
 
 @app.route('/searches', methods=['GET', 'POST'])
 def searches():
+	
+	location = session.get('location')
 
-	search = session.get('search')
+	search = get_state_and_county(location)
 
 	return render_template('search.html', search=search)
 
