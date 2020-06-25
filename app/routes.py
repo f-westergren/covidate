@@ -1,15 +1,16 @@
 from flask import redirect, render_template, url_for, request, flash, session
 from werkzeug.urls import url_parse
 import requests
+from datetime import date
 
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
 from app.forms import LoginForm, SearchForm
 from app.models import User, Search
 
-from app import app
+from app import app, db
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
 	""" Show index page with search form """
 
@@ -22,13 +23,21 @@ def index():
 		# Set user_id if user is logged in.
 		user_id = current_user.id if current_user.is_authenticated else None
 		
-		search = Search(location, date, description, user_id)
+		search = Search(
+			location=location, 
+			date=date,
+			description=description,  
+			created_at=date.today(), 
+			user_id=user_id
+		)
 
+		print('search', search)
+		
 		db.session.add(search)
 		db.session.commit()
 
 		session['search'] = search.id
-		
+
 		return redirect(url_for('searches'))
 
 	return render_template("index.html", user=current_user, form=form)
@@ -102,6 +111,12 @@ def logout():
 
 @app.route('/searches', methods=['GET', 'POST'])
 def searches():
+
+	search = session.get('search')
+
+	return render_template('search.html', search=search)
+
+
 	""" Show search or search result """
 
 	# Option to create account and save search?
