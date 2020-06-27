@@ -9,7 +9,7 @@ class LoginForm(FlaskForm):
 	
 class SearchForm(FlaskForm):
 	location = StringField('Location', validators=[DataRequired()])
-	date = DateField('Date', format='%m-%d-%y', validators=[DataRequired(message='Please enter a valid date, (MM-DD-YY).')])
+	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired(message='Please enter a valid date, (MM-DD-YY).')])
 	description = StringField('Description')
 
 	# confirm = PasswordField('Re-enter Password', validators=[DataRequired(), EqualTo('password')])
