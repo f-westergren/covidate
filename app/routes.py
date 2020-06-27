@@ -1,32 +1,25 @@
-from flask import redirect, render_template, url_for, request, flash, session
+from flask import redirect, render_template, url_for, request, flash, session, jsonify
+from flask_cors import cross_origin, CORS
 from werkzeug.urls import url_parse
 import requests
-from datetime import date
+import wtforms_json
 
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
 from app.forms import LoginForm, SearchForm
 from app.models import User, Search
-from app.helper import get_state_and_county
+from app.helper import get_state_and_county, get_covid_data
 
 from app import app, db
+
+cors = CORS(app, resources={r'/search': {"origins": "*"}})
+wtforms_json.init()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	""" Show index page with search form """
 
-	form = SearchForm()
-
-	if form.validate_on_submit():
-		session['location'] = form.location.data
-		session['date'] = form.date.data
-		session['description'] = form.description.data or None
-		# Set user_id if user is logged in.
-		session['user_id'] = current_user.id if current_user.is_authenticated else None
-
-		return redirect(url_for('searches'))
-
-	return render_template("index.html", user=current_user, form=form)
+	return render_template("index.html", user=current_user)
 
 ##############################################################################
 # Login, logout and register routes
@@ -95,15 +88,29 @@ def logout():
 ##############################################################################
 # Searches
 
-@app.route('/searches', methods=['GET', 'POST'])
-def searches():
+@app.route('/search', methods=['GET', 'POST'])
+@cross_origin(origin='*', headers=['Content-Type','Authorization'])
+def search():
+	print(session.get('date'))
 	
-	location = session.get('location')
+	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
-	search = get_state_and_county(location)
+	# TODO: Make sure date is not before today's date.
 
-	return render_template('search.html', search=search)
+	if form.validate():
+		location = get_state_and_county(form.location.data)
+		date = str(form.date.data)
+		
+		county = location['county'].lower()
+		state = location['state'].lower()
 
+		covid_data = get_covid_data(date, state, county)
+
+		return jsonify(covid_data)
+		
+
+
+	return 'Nope!'
 
 	""" Show search or search result """
 
@@ -113,7 +120,7 @@ def searches():
 # @app.route('/searches/<int:search_id>', methods=['GET', 'POST'])
 # @login_required
 # def search(search_id):
-# 	""" Show and edit search """
+# 	""" Show and edit search """																
 
 # @app.route('searches/<int:search_id>/delete')
 # @login_required
