@@ -12,14 +12,15 @@ class User(UserMixin, db.Model):
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	username = db.Column(db.String, nullable=False, unique=True)
 	email = db.Column(db.String, nullable=False, unique=True)
-	location = db.Column(db.String)
 	password = db.Column(db.Text, nullable=False)
 
+	searches = db.relationship('Search', backref="user")
+
 	def __repr__(self):
-		return f'<User id={self.id} name={self.username} location={self.location} email={self.email}>'
+		return f'<User id={self.id} name={self.username} email={self.email}>'
 	
 	@classmethod
-	def register(cls, username, email, password, location=''):
+	def signup(cls, username, email, password):
 		"""Register user with hashed password and return user"""
 	
 		hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
@@ -28,7 +29,6 @@ class User(UserMixin, db.Model):
 			username=username,
 			email=email,
 			password=hashed_pwd,
-			location=location
 		)
 		
 		db.session.add(user)

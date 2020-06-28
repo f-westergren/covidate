@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
+
+    <script type="text/javascript">
+      window.onload = function() {
+        placeSearch({
+          key: 'lYrP4vF3Uk5zgTiGGuEzQGwGIVDGuy24',
+          container: document.querySelector('#search-input'),
+          useDeviceLocation: true,
+          collection: [
+            'address',
+            'adminArea',
+          ]
+        });
+      }
+    </script>
+  </head>
+
+  <body style="border: 0; margin: 40px;">
+    <input type="search" id="search-input" placeholder="Start Searching..." />
+  </body>
+</html>

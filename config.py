@@ -5,3 +5,5 @@ class Config(object):
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DEBUG_TB_INTERCEPT_REDIRECTS = False
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'postgresql:///covid-event-search'
+	TEMPLATES_AUTO_RELOAD = True
+	
