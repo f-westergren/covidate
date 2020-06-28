@@ -16,7 +16,7 @@ from app import app, db
 cors = CORS(app, resources={r'/search': {"origins": "*"}})
 wtforms_json.init()
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
 	""" Show index page with search form """
 
