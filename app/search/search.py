@@ -1,13 +1,21 @@
-from flask import Blueprint, session, jsonify
+from flask import Blueprint, session, jsonify, request
 from flask_cors import cross_origin, CORS
 import wtforms_json
 
 from app.forms import SearchForm
 from app.helper import get_state_and_county, get_covid_data
 
-cors = CORS(app, resources={r'/search': {"origins": "*"}})
-wtforms_json.init()
+#Blueprint Configuration
+search_bp = Blueprint(
+	'search_bp', __name__,
+	template_folder='templates',
+	static_folder='static'
+)
 
+# from app import app
+
+cors = CORS(search_bp, resources={r'/search': {"origins": "*"}})
+wtforms_json.init()
 
 @search_bp.route('/search', methods=['GET', 'POST'])
 @cross_origin(origin='*', headers=['Content-Type','Authorization'])

@@ -2,15 +2,20 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+db = SQLAlchemy()
+login = LoginManager()
+login.login_view = 'index.index'
+login.login_message_category = "danger"
+
 def create_app():
   """Create Flask Application."""
 
   app = Flask(__name__)
-  app.config.from_object(cofig.Config)
-  db  = SQLAlchemy(app)
-  login = LoginManager(app)
-  login.login_view = 'index'
-  login.login_message_category = "danger"
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///covid'
+  app.config.from_object('config.Config')
+  
+  db.init_app(app)
+  login.init_app(app)
 
   with app.app_context():
     # Import parts of our application

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask import current_app as current_app
+from flask_login import current_user
 
 #Blueprint Configuration
 index_bp = Blueprint(
