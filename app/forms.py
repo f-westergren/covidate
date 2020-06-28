@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class LoginForm(FlaskForm):
-	email = StringField('Username', validators=[DataRequired()])
+	username = StringField('Username', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
 	remember_me = BooleanField('Remember Me')
 	
@@ -12,6 +12,8 @@ class SearchForm(FlaskForm):
 	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired(message='Please enter a valid date, (MM-DD-YY).')])
 	description = StringField('Description')
 
-	# confirm = PasswordField('Re-enter Password', validators=[DataRequired(), EqualTo('password')])
-
-	# Email(message='Enter a valid email')]
+class SignupForm(FlaskForm):
+	username = StringField('Username', validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
+	confirm = PasswordField('Re-enter Password', validators=[DataRequired(), EqualTo('password')])
+	email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email')])

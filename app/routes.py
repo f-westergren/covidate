@@ -6,7 +6,7 @@ import wtforms_json
 
 from flask_login import LoginManager, current_user, login_user, logout_user, login_required
 
-from app.forms import LoginForm, SearchForm
+from app.forms import LoginForm, SearchForm, SignupForm
 from app.models import User, Search
 from app.helper import get_state_and_county, get_covid_data
 
@@ -34,12 +34,12 @@ def login():
 	form = LoginForm()
 
 	if form.validate_on_submit():
-		email = form.email.data
+		username = form.username.data
 		password = form.password.data
-		user = User.authenticate(email, password)
+		user = User.authenticate(username, password)
 
 		if not user:
-			flash("Invalid credentials.", 'red')
+			flash("Invalid credentials.", 'danger')
 			return redirect(url_for('login'))	
 
 		login_user(user, remember=form.remember_me.data)
@@ -48,12 +48,49 @@ def login():
 			next_page = url_for('index')
 		return redirect(next_page)
 
-	return render_template('login.html', form=form)
+	return render_template('/user/login.html', form=form)
 
 @app.route('/logout')
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+	"""Handle user signup.
+
+  Create new user and add to DB. Redirect to home page.
+
+  If form not valid, present form.
+
+  If the there already is a user with that username: flash message
+  and re-present form.
+  """
+
+	if current_user.is_authenticated:
+		return redirect(url_for('index'))
+
+	form = SignupForm()
+
+	if form.validate_on_submit():
+		try:
+			user = User.signup(
+				username=form.username.data,
+				password=form.password.data,
+				email=email.form.data,
+			)
+			db.session.commit()
+
+		except IntegrityError:
+			flash('Username already taken', 'danger')
+			return render_template('/user/signup.html', form=form)
+		
+		login_user(user)
+		next_page=request.args.get('next')
+		if not next_page or url_parse(next_page).netloc != '':
+			next_page = url_for('index')
+	
+	return render_template('user/signup.html', form=form)
 
 ##############################################################################
 # User routes
@@ -68,17 +105,20 @@ def logout():
 	
 # 	return render_template('user.html', user=user)
 
-# @app.route('/users/<username>/profile', methods=['GET', 'POST'])
+# @app.route('/user/<username>/profile', methods=['GET', 'POST'])
 # @login_required
 # def user_profile(username):
 # 	""" Show user profile page with edit form """
 
-# @app.route('/users/<username>/searches')
-# @login_required
-# def user_searches(username)
-# 	""" Show user's searches thumbnails """
+@app.route('/user/<username>/searches')
+@login_required
+def searches(username):
+	""" Show user's searches thumbnails """
+	
 
-# @app.route('/users/<username>/delete', methods=['POST'])
+	return render_template('/user/searches.html')
+
+# @app.route('/user/<username>/delete', methods=['POST'])
 # @login_required
 # def delete_user(username)
 # 	""" Delete user """
@@ -86,7 +126,7 @@ def logout():
 	# Password required for this
 
 ##############################################################################
-# Searches
+# Search
 
 @app.route('/search', methods=['GET', 'POST'])
 @cross_origin(origin='*', headers=['Content-Type','Authorization'])
