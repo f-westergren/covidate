@@ -1,32 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
-<div class="flex mb-4">
-  <div class="w-full">
-    <h1 class='text-2xl md:text-5xl font-bold text-center text-blue-800 uppercase'>Covid-19 Event Search</h1>
-    <h2 class='text-l md:text-2xl font-bold text-center text-blue-400'>Search for a date and get data on covid spread</h2> 
-  </div>
+<div class="container-fluid mt-4">
+<div class="row">
+  <div class="col-12"><h1 class="text-center text-primary mb-2">Covid-19 Event Search</h1></div>
+  <div class="col-12"><h2 class="text-center text-secondary mb-4">Search for a date and get data on covid spread</h2> </div>
+  
 </div>
+
 <form id="search-form">
-  <div class="form-row">
-    <div class="col">
-            <input type="text" id="search-input" placeholder="Location" name="Location" />
-          </div>
-          <div class="col">
-            <input type="date" name="date" id="date" class="form-control" placeholder="Date">
-        </div>
-      </div>
-        <button 
-          class="btn btn-primary" 
-          type="submit">
-          Search
-        </button>
+  <div class="container">
+  <div class="row">
+    <div class="col-md">
+    <input type="text" id="search-input" placeholder="Location" name="Location" />
+  </div>
+  <div class="col">
+    <input type="date" class="form-control" style="height: 3.1rem;" name="date" id="date" class="form-control" placeholder="Date">
+  </div>
+  </div>
+  <button class="btn btn-primary float-right mt-4" type="submit">Search</button> 
+</div>
+
 </form>
+
+</div>
+</div>
+
 
 <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/static/mapquest.js"></script>  
 <script src="/static/search.js"></script>
+<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
 {% endblock %}
