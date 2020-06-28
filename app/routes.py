@@ -1,6 +1,7 @@
 from flask import redirect, render_template, url_for, request, flash, session, jsonify
 from flask_cors import cross_origin, CORS
 from werkzeug.urls import url_parse
+from sqlalchemy.exc import IntegrityError
 import requests
 import wtforms_json
 
@@ -77,7 +78,7 @@ def signup():
 			user = User.signup(
 				username=form.username.data,
 				password=form.password.data,
-				email=email.form.data,
+				email=form.email.data,
 			)
 			db.session.commit()
 
@@ -86,9 +87,7 @@ def signup():
 			return render_template('/user/signup.html', form=form)
 		
 		login_user(user)
-		next_page=request.args.get('next')
-		if not next_page or url_parse(next_page).netloc != '':
-			next_page = url_for('index')
+		return redirect(url_for('index'))
 	
 	return render_template('user/signup.html', form=form)
 

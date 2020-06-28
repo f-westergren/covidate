@@ -19,7 +19,7 @@ class User(UserMixin, db.Model):
 		return f'<User id={self.id} name={self.username} location={self.location} email={self.email}>'
 	
 	@classmethod
-	def register(cls, username, email, password, location=''):
+	def signup(cls, username, email, password, location=''):
 		"""Register user with hashed password and return user"""
 	
 		hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')

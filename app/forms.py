@@ -15,5 +15,5 @@ class SearchForm(FlaskForm):
 class SignupForm(FlaskForm):
 	username = StringField('Username', validators=[DataRequired()])
 	password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
-	confirm = PasswordField('Re-enter Password', validators=[DataRequired(), EqualTo('password')])
+	confirm = PasswordField('Repeat Password', validators=[EqualTo('password', message="Passwords must match")])
 	email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email')])
