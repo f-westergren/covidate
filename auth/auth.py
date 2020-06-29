@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, url_for, flash
-from flask_login import login_required, logout_user, current_user
+from flask_login import login_required, logout_user, current_user, login_user
 from werkzeug.urls import url_parse
 from sqlalchemy.exc import IntegrityError
 from forms import LoginForm, SignupForm
@@ -15,7 +15,7 @@ def login():
 	""" Show login page with login form """
 
 	if current_user.is_authenticated:
-		return redirect(url_for('/'))
+		return redirect(url_for('index'))
 	
 	form = LoginForm()
 
@@ -25,24 +25,15 @@ def login():
 		user = User.authenticate(username, password)
 
 		if user:
-			login_user(user, remember=form.remember_me.data)
+			login_user(user)
 			next_page = request.args.get('next')
 			if not next_page or url_parse(next_page).netloc != '':
 				next_page = url_for('index')
 			return redirect(next_page)
-
+		
 		flash("Invalid credentials.", 'danger')
-		return redirect(url_for('login'))	
 
-
-
-	return render_template('/login.html', form=form)
-
-@auth_bp.route('/logout')
-@login_required
-def logout():
-	logout_user()
-	return redirect(url_for('index'))
+	return render_template('/login.html', form=form, btnText="Sign In", cancel='index')
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -78,3 +69,9 @@ def signup():
 		return redirect(url_for('index'))
 	
 	return render_template('signup.html', form=form)
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+	logout_user()
+	return redirect(url_for('index'))

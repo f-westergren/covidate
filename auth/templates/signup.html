@@ -11,14 +11,14 @@
       {{ form.username.label }}
       {{ form.username (class_="form-control")}}
       {% for error in form.username.errors %}
-      <span class="text-danger text-sm">{{ error }}</span>
+      <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
     {% endfor %}
     </div>
     <div class="form-group col-md-6">
       {{ form.email.label }}
       {{ form.email (class_="form-control")}}
       {% for error in form.email.errors %}
-      <span class="text-danger text-sm">{{ error }}</span>
+      <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
     {% endfor %}
     </div>
   </div>
@@ -27,14 +27,14 @@
     {{ form.password.label }}
     {{ form.password (class_="form-control")}}
     {% for error in form.password.errors %}
-    <span class="text-danger text-sm">{{ error }}</span>
+    <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
   {% endfor %}
   </div>
   <div class="form-group col-md-6">
     {{ form.confirm.label }}
     {{ form.confirm (class_="form-control")}}
     {% for error in form.confirm.errors %}
-    <span class="text-danger font-weight-light font-italic" style="font-size: 14px;">{{ error }}</span>
+    <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
   {% endfor %}
   </div>
 </div>
