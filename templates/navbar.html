@@ -11,10 +11,10 @@
     <ul class="navbar-nav ml-auto flex-nowrap">
   {% if current_user.is_authenticated %}
       <li class="nav-item">
-        <a href="/user/{{current_user.username}}/searches" class="nav-link">My Searches</a>
+        <a href="{{ url_for('user_bp.searches', username=current_user.username) }}" class="nav-link">My Searches</a>
       </li>
       <li class="nav-item">
-        <a href="/user/{{current_user.username}}/profile" class="nav-link">My Profile</a>
+        <a href="{{ url_for('user_bp.edit_profile', username=current_user.username) }}" class="nav-link">My Profile</a>
       </li>
       <li class="nav-item">
         <a href="/logout" class="nav-link">Logout</a>
