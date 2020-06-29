@@ -1,6 +1,6 @@
 import requests
-from app.secrets import MAPQUEST_API_KEY
-from app.states import states
+from secrets import MAPQUEST_API_KEY
+from states import states
 from datetime import datetime
 
 BASE_MAP_API_URL = 'http://www.mapquestapi.com/geocoding/v1'

@@ -1,9 +1,13 @@
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 from flask_bcrypt import Bcrypt
-
-from app import db, login
+from flask_sqlalchemy import SQLAlchemy
 
 bcrypt = Bcrypt()
+db = SQLAlchemy()
+
+login = LoginManager()
+login.login_view = 'index'
+login.login_message_category = "danger"
 
 class User(UserMixin, db.Model):
 	""" Users """
