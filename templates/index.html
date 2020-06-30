@@ -10,10 +10,10 @@
   <form id="search-form" method="POST">  
     <div class="row">
       <div class="col-md-6">
-        <input class="text-uppercase" type="text" id="search-input" placeholder="Location" name="Location" />
+        <input type="text" id="search-input" placeholder="Location" name="Location" required/>
       </div>
       <div class="col-md-6">
-        <input type="date" class="form-control text-uppercase" style="height: 3.1rem;" name="date" id="date" class="form-control" placeholder="Date">
+        <input type="date" class="form-control text-uppercase" style="height: 3.1rem;" name="date" id="date" class="form-control" placeholder="Date" required>
       </div>
     </div>
     <div class="row">
@@ -24,19 +24,27 @@
   </form>
   <div class="row mt-4">
     <div class="col">
+      <button class="btn btn-primary text-uppercase d-none" id="show-btn">Show Until Today</button>
+      <button class="btn btn-primary text-uppercase" id="death-btn">Show Deaths</button>
+    </div>  
+  </div>
+  <div class="row mt-4">
+    <div class="col">
       <div id="cases-chart"></div>
+      <div class="text-center d-none" id="loader">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row mt-4">
     <div class="col">
-      <button class="btn btn-primary d-none" id="show-btn">Show Until Today</button>
+      <div id="deaths-chart"></div>
     </div>
-    <div class="col">
-      <button class="btn btn-primary" id="death-btn">Show Deaths</button>
-    </div>
+  </div>
 
   </div>
-</div>
 
 <script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
 <link href="https://unpkg.com/c3@0.7.11/c3.min.css" rel="stylesheet">
@@ -44,8 +52,8 @@
 <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="/static/mapquest.js"></script> 
-<script src="/static/chart.js"></script> 
-<script src="/static/search.js"></script>
+<script src="/static/search.js"></script> 
+<script src="/static/ui.js"></script>
 
 <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
 {% endblock %}
