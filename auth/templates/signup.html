@@ -8,14 +8,14 @@
   {{ form.hidden_tag() }}
   <div class="form-row">
     <div class="form-group col-md-6">
-      {{ form.username.label }}
+      {{ form.username.label (class_="text-uppercase")}}
       {{ form.username (class_="form-control")}}
       {% for error in form.username.errors %}
       <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
     {% endfor %}
     </div>
     <div class="form-group col-md-6">
-      {{ form.email.label }}
+      {{ form.email.label (class_="text-uppercase")}}
       {{ form.email (class_="form-control")}}
       {% for error in form.email.errors %}
       <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
@@ -24,21 +24,21 @@
   </div>
   <div class="form-row align-self-center">
   <div class="form-group col-md-6">
-    {{ form.password.label }}
+    {{ form.password.label (class_="text-uppercase")}}
     {{ form.password (class_="form-control")}}
     {% for error in form.password.errors %}
     <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
   {% endfor %}
   </div>
   <div class="form-group col-md-6">
-    {{ form.confirm.label }}
+    {{ form.confirm.label (class_="text-uppercase")}}
     {{ form.confirm (class_="form-control")}}
     {% for error in form.confirm.errors %}
     <span class="form-text text-danger" style="font-size: 14px;">{{ error }}</span>
   {% endfor %}
   </div>
 </div>
-  <button type="submit" class="btn btn-primary">Sign in</button>
+  <button type="submit" class="btn btn-primary text-uppercase">Sign in</button>
 </form>
 </div>
 {% endblock %}

@@ -11,20 +11,20 @@
     <ul class="navbar-nav ml-auto flex-nowrap">
   {% if current_user.is_authenticated %}
       <li class="nav-item">
-        <a href="{{ url_for('user_bp.searches', username=current_user.username) }}" class="nav-link">My Searches</a>
+        <a href="{{ url_for('user_bp.searches', username=current_user.username) }}" class="nav-link text-uppercase">My Searches</a>
       </li>
       <li class="nav-item">
-        <a href="{{ url_for('user_bp.edit_profile', username=current_user.username) }}" class="nav-link">Edit Profile</a>
+        <a href="{{ url_for('user_bp.edit_profile', username=current_user.username) }}" class="nav-link text-uppercase">Edit Profile</a>
       </li>
       <li class="nav-item">
         <a href="/logout" class="nav-link">Logout</a>
     </li>
   {% else %}
         <li class="nav-item">
-            <a href="/signup" class="nav-link">Sign Up</a>
+            <a href="/signup" class="nav-link text-uppercase">Sign Up</a>
         </li>
         <li class="nav-item">
-            <a href="/login" class="nav-link">Login</a>
+            <a href="/login" class="nav-link text-uppercase">Login</a>
         </li>
     </ul>
 </div>
