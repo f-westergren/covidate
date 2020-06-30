@@ -41,12 +41,16 @@ def get_covid_data(date, state, county):
   diff = datetime.now() - date
   days = diff.days
 
-
   res = requests.get(f'{BASE_COVID_API_URL}/{state}', params={'lastdays': days})
 
   for c in res.json():
-    if c['county'] == county:  
-      return c['timeline']
+    if c['county'] == county:
+      timeline = c['timeline']
+      dates = [date.replace('/', '-') for date in timeline['cases']]
+      cases = [timeline['cases'][num] for num in timeline['cases']]
+      deaths = [timeline['deaths'][num] for num in timeline['deaths']]
+
+      return {'dates': dates, 'cases': cases, 'deaths': deaths}
 
   return res
   
