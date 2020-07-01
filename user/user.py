@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from forms import EditPasswordForm, EditUserForm
 from flask_bcrypt import Bcrypt
+from sqlalchemy.exc import InvalidRequestError, IntegrityError
 
 from models import User, db
 
@@ -41,15 +42,24 @@ def edit_profile(username):
 		user = User.authenticate(current_user.username, form.password.data)
 
 		if user:
-			user.username = form.username.data
-			user.email = form.email.data
-			db.session.commit()
-			flash('User information updated', 'success')
-			return redirect(url_for('index'))
+			try:
+				user.username = form.username.data
+				user.email = form.email.data
+				db.session.commit()
+				flash('User information updated', 'success')
+				return redirect(url_for('index'))
+
+			except InvalidRequestError:
+				flash('Username already taken', 'danger')
+				return redirect(f'/user{user.username}/profile')
+
+			except IntegrityError:
+				flash('Username already taken', 'danger')
+				return redirect(f'/user{user.username}/profile')
 
 		flash('Invalid credentials.', 'danger')
   
-	return render_template('profile.html', form=form)
+	return render_template('profile.html', form=form, btnText='Submit', cancel='index')
 
 @user_bp.route('/user/<username>/password', methods=['GET', 'POST'])
 @login_required
@@ -92,3 +102,7 @@ def searches(username):
 # 	""" Delete user """
 
 	# Password required for this
+
+# @user_bp.route('/search/save', method=['POST'])
+# @login_required
+# def save_search()
