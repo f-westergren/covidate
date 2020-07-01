@@ -53,8 +53,11 @@ def get_covid_data(date, state, county):
       return {'dates': dates, 'cases': cases, 'deaths': deaths}
 
   return res
-  
 
+  # Error handling for no county
+  # Error handling for no state
+  # Error handling for no data?
+  
 
 
 # Räkna ut dagar att requesta
