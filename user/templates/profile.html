@@ -3,27 +3,28 @@
 {% block content %}
 
 <div class="container mt-4">
-  <h1 class='text-center'>Edit Profile</h1>
+  <h1 class='text-center text-uppercase'>Edit Profile</h1>
     <form method="POST">
     {{ form.hidden_tag() }}
     <div class="form-group">
-      {{ form.username.label }}
+      {{ form.username.label (class_="text-uppercase") }}
       {{ form.username (class_="form-control")}}
       {% for error in form.username.errors %}
       <span class="text-danger text-sm">{{ error }}</span>
     {% endfor %}
     </div>
     <div class="form-group">
-      {{ form.email.label }}
+      {{ form.email.label  (class_="text-uppercase")}}
       {{ form.email (class_="form-control")}}
       {% for error in form.username.errors %}
       <span class="text-danger text-sm">{{ error }}</span>
     {% endfor %}
    </div>
     <div class="form-group">
-       {{ form.password.label }} (<a href="{{ url_for('user_bp.edit_password', username=current_user.username) }}" class="text-secondary">change</a>)
-       {{ form.password (class_="form-control")}}
-       {% for error in form.username.errors %}
+      {{ form.password.label (class_="text-uppercase")}} 
+        (<a href="{{ url_for('user_bp.edit_password', username=current_user.username) }}" class="text-secondary text-uppercase">change</a>)
+      {{ form.password (class_="form-control")}}
+      {% for error in form.username.errors %}
        <span class="text-danger text-sm">{{ error }}</span>
      {% endfor %}
     </div>
