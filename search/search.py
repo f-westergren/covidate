@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, jsonify, g
+from flask import Blueprint, render_template, redirect, request, url_for, jsonify
 from flask_login import login_required, current_user
 from flask_cors import cross_origin, CORS
 
@@ -61,8 +61,6 @@ def search():
 @search_bp.route('/search/save', methods=['POST'])
 @cross_origin(origin='*', headers=['Content-Type','Authorization'])
 def save_search():
-	print('G', g.user)
-
 	location = request.get_json()['location']
 	date = request.get_json()['date']
 	dates = request.get_json()['dates']
