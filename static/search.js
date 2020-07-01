@@ -3,10 +3,12 @@ const BASE_URL = 'http://localhost:5000'
  // The Search class represents the current search data. 
  // There are helper methods to generate different graphs using the data.
 class Search {
-  constructor(responseObj) {
+  constructor(responseObj, location, date) {
     this.deaths = responseObj.deaths
     this.cases = responseObj.cases
     this.dates = responseObj.dates
+    this.location = location
+    this.date = date
 
     // these are set by default, not passed in by the constructor
     this.days = 16
@@ -24,15 +26,28 @@ class Search {
       throw new Error('Invalid data from server')
     }
 
-    const newSearch = new Search(response.data)
+    const newSearch = new Search(response.data, location, date)
     
     return newSearch
 
   // request to post to searches to save data if user is logegd in
 }
 
+  async save() {
+    await axios.post(`${BASE_URL}/search/save`, {
+      "location": this.location,
+      "date": this.date,
+      "dates": this.dates,
+      "cases": this.cases,
+      "deaths": this.deaths
+    })
+  }
+
   // TODO: Add SELECT points with numbers for every 5 days.
   // TODO: Customize tooltip to show case/death increase.
+  // TODO: Fix decimals in y axis
+  // TODO: Fix only cities and counties in US.
+
 
   // Method for generating chart from data and append to selected div.
   generateChart(div, covidData=this.cases, label='cases') {
@@ -67,11 +82,6 @@ class Search {
           tick: {
             format: '%m-%d'
           }
-        }
-      },
-      tooltip: {
-        contents: function (d, defaultTitleFormat, defaultValueFormat, color) {
-          return '<p class="bg-danger text-uppercase">Test</p>'
         }
       }
     })
