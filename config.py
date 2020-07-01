@@ -8,4 +8,4 @@ class Config():
 	SECRET_KEY = SECRET
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 	DEBUG_TB_INTERCEPT_REDIRECTS = False
-	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'postgresql:///covid'
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgresql:///covid'
