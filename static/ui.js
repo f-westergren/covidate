@@ -1,4 +1,9 @@
-// global currentUser variable
+// global currentSearch variable
+const loader = document.querySelector('#loader')
+const toggleBtn = document.querySelector('#toggle-btn')
+const dateBtn = document.querySelector('#date-btn')
+const saveBtn = document.querySelector('#save-btn')
+
 let currentSearch = null
 let chart = null
 let showLoader = false
@@ -34,7 +39,6 @@ async function processForm(e) {
 
   // TODO: Add if statement to check value.
   document.querySelector('#loader').classList.remove('d-none')
-  
 
   try {
   const searchInstance = await Search.create(location, date)
@@ -44,15 +48,19 @@ async function processForm(e) {
   }
 
   chart = currentSearch.generateChart('#cases-chart')
-  document.querySelector('#show-btn').classList.remove('d-none')
-  document.querySelector('#loader').classList.add('d-none')
+  toggleBtn.classList.remove('d-none')
+  dateBtn.classList.remove('d-none')
+  loader.classList.add('d-none')
 }
 
 document.querySelector('#search-form').addEventListener("submit", processForm)
-
-document.querySelector('#show-btn').addEventListener('click', (e) => toggleAllDates(e))
-
-document.querySelector('#death-btn').addEventListener('click', (e) => toggleDeaths(e))
+dateBtn.addEventListener('click', (e) => toggleAllDates(e))
+toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
+saveBtn.addEventListener('click', (e) => {
+  e.preventDefault()
+  console.log('clicked!')
+  currentSearch.save()
+})
 
 // Method to add spinner loader.
 
