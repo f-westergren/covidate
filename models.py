@@ -1,6 +1,7 @@
 from flask_login import UserMixin, LoginManager
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
+from flask.json import JSONEncoder
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -51,6 +52,7 @@ class User(UserMixin, db.Model):
 			return u
 		else:
 			return False
+	
 			
 class Search(db.Model):
 	""" Searches """
@@ -68,6 +70,19 @@ class Search(db.Model):
 
 	def __repr__(self):
 		return f'<Search id={self.id} location={self.location} date={self.date} user_id={self.user_id}>'
+
+	
+	def serialize(self):
+		return {
+			'location': self.location,
+			'date': self.date,
+			'dates': self.dates,
+			'deaths': self.deaths,
+			'cases': self.cases,
+			'created_at': self.created_at,
+			'description': self.description,
+		}
+
 
 @login.user_loader
 def load_user(id):
