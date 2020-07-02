@@ -56,13 +56,14 @@ async function processForm(e) {
 document.querySelector('#search-form').addEventListener("submit", processForm)
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
-saveBtn.addEventListener('click', (e) => {
-  e.preventDefault()
-  console.log('clicked!')
-  currentSearch.save()
+saveBtn.addEventListener('click', () => {
+  if (currentSearch) {
+    if (frontendId) {
+      currentSearch.save(frontendId)
+    }
+  else {
+      currentSearch.save()
+      console.log('saved!')
+    }
+  }
 })
-
-// Method to add spinner loader.
-
-
-

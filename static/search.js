@@ -17,6 +17,7 @@ class Search {
   // Create and return a new search.
   // Makes POST request to backend and returns newly-created search
   static async create(location, date) {
+    console.log('DATE', date)
     const response = await axios.post(`${BASE_URL}/search`, {
       "location": location,
       "date": date
@@ -33,13 +34,15 @@ class Search {
   // request to post to searches to save data if user is logegd in
 }
 
-  async save() {
+  async save(user_id = undefined) {
+    console.log('user id', user_id)
     await axios.post(`${BASE_URL}/search/save`, {
       "location": this.location,
       "date": this.date,
       "dates": this.dates,
       "cases": this.cases,
-      "deaths": this.deaths
+      "deaths": this.deaths,
+      "user_id": user_id
     })
   }
 
@@ -80,7 +83,14 @@ class Search {
         x: {
           type: 'timeseries',
           tick: {
-            format: '%m-%d'
+            format: '%m/%d'
+          }
+        },
+        y: {
+          tick: {
+              format: function (d) {
+                  return (parseInt(d) == d) ? d : null;
+              }
           }
         }
       }

@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, redirect, request, url_for, flash
+from flask import Blueprint, render_template, redirect, request, url_for, flash, session
 from flask_login import login_required, logout_user, current_user, login_user
 from werkzeug.urls import url_parse
 from sqlalchemy.exc import IntegrityError
 from forms import LoginForm, SignupForm
-from models import User, db
+from models import User, db, Search
+from helper import save_new_search
 
 auth_bp = Blueprint('auth_bp', __name__,
   template_folder='templates',
@@ -14,6 +15,8 @@ auth_bp = Blueprint('auth_bp', __name__,
 def login():
 	""" Show login page with login form """
 
+	if 'search' in session:
+		print('YES!', session['search'])
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
 	
@@ -26,10 +29,11 @@ def login():
 
 		if user:
 			login_user(user)
-			next_page = request.args.get('next')
-			if not next_page or url_parse(next_page).netloc != '':
-				next_page = url_for('index')
-			return redirect(next_page)
+			if 'search' in session:
+				save_new_search(session['search'], user)
+				del session['search']
+				return redirect(f'/search/{user.username}/searches')
+			return redirect(url_for('index'))
 		
 		flash("Invalid credentials.", 'danger')
 

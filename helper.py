@@ -2,6 +2,7 @@ import requests
 from secrets import MAPQUEST_API_KEY
 from states import states
 from datetime import datetime
+from models import db, Search, User
 
 BASE_MAP_API_URL = 'http://www.mapquestapi.com/geocoding/v1'
 BASE_COVID_API_URL = 'https://corona.lmao.ninja/v2/historical/usacounties'
@@ -53,6 +54,29 @@ def get_covid_data(date, state, county):
       return {'dates': dates, 'cases': cases, 'deaths': deaths}
 
   return res
+
+def save_new_search(data, user=False):
+  # Change this to use current_user
+  if user:
+    location, date, dates, cases, deaths, user_id = data.values()
+  else: 
+    location, date, dates, cases, deaths = data.values()
+  s = Search(
+	  location=location,
+	  date=date, 
+	  dates=dates, 
+	  cases=cases,
+	  deaths=deaths, 
+	  created_at=datetime.now().strftime("%m/%d/%Y"),
+	  description = f'Cases from {date} in {location}', #TODO: Make sure this is in American format
+	)
+  if user:
+    user.searches.append(search)
+    db.session.commit()
+  
+  else:
+    return s.serialize()
+
 
   # Error handling for no county
   # Error handling for no state

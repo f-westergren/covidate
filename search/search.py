@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, redirect, request, url_for, jsonify
+from flask import Blueprint, render_template, redirect, request, url_for, jsonify, session, flash
 from flask_login import login_required, current_user
 from flask_cors import cross_origin, CORS
 
 from forms import SearchForm
-from models import Search
-from helper import get_covid_data, get_state_and_county
+from models import Search, db, User
+from helper import get_covid_data, get_state_and_county, save_new_search
 from datetime import datetime
 
 import requests
@@ -25,6 +25,7 @@ def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
 	# TODO: Make sure date is not before today's date.
+	# TODO: Add error handling
 
 	if form.validate():
     # Get state and county from location
@@ -45,9 +46,6 @@ def search():
 
 	""" Show search or search result """
 
-	# Option to create account and save search?
-	# If logged in, option to save search
-
 # @app.route('/search/<int:search_id>', methods=['GET', 'POST'])
 # @login_required
 # def search(search_id):
@@ -61,23 +59,20 @@ def search():
 @search_bp.route('/search/save', methods=['POST'])
 @cross_origin(origin='*', headers=['Content-Type','Authorization'])
 def save_search():
-	location = request.get_json()['location']
-	date = request.get_json()['date']
-	dates = request.get_json()['dates']
-	cases = request.get_json()['cases']
-	deaths = request.get_json()['deaths']
+	""" If user is logged in, save search to user, else save to 
+	session and redirect user to login 
+	"""
+	
+	if 'user_id' in request.json: # Change this to use current_user
+		user = User.query.get(request.json['user_id']) # Change this to current_user
+		save_new_search(request.json, user)
+		# return redirect(f'/user/{u.username}/searches') #Uncomment when CORS is fixed
+	else:
+		session['search'] = save_new_search(request.json)
 
-	s = Search(
-		location=location, 
-		date=date, 
-		dates=dates, 
-		cases=cases, 
-		deaths=deaths, 
-		created_at=datetime.now(),
-		description = f'Cases from {date} in {location}',
-		user_id = g.user.id
-	)
+	# Add if current_user.is_authenticated
+	# flash('Please login to save search.', 'danger')
+	
+	# return redirect(url_for('login'))
+	return 'Placeholder until CORS is fixed!'
 
-	db.session.add(s)
-	db.session.commit()
-	return 'Saved!'
