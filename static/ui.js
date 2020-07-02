@@ -9,6 +9,7 @@ let chart = null
 let showLoader = false
 let showDates = false
 
+// Toggle between showing 15 days from search date or all days until search creation
 const toggleAllDates = (e) => {
   if (!showDates) {
     currentSearch.showAllDates(chart)
@@ -21,6 +22,7 @@ const toggleAllDates = (e) => {
   }
 }
 
+// Toggle between showing deaths and showing cases 
 const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
   if (legend == 'deaths') {
@@ -56,14 +58,7 @@ async function processForm(e) {
 document.querySelector('#search-form').addEventListener("submit", processForm)
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
-saveBtn.addEventListener('click', () => {
-  if (currentSearch) {
-    if (frontendId) {
-      currentSearch.save(frontendId)
-    }
-  else {
-      currentSearch.save()
-      console.log('saved!')
-    }
-  }
-})
+saveBtn.addEventListener('click', async function() {
+  await currentSearch.save()
+}
+)

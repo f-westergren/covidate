@@ -15,8 +15,6 @@ auth_bp = Blueprint('auth_bp', __name__,
 def login():
 	""" Show login page with login form """
 
-	if 'search' in session:
-		print('YES!', session['search'])
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
 	
@@ -26,13 +24,13 @@ def login():
 		username = form.username.data
 		password = form.password.data
 		user = User.authenticate(username, password)
-
+		if 'search' in session:
+			save_new_search(session['search'], user)
+			del session['search']
+			flash("Search saved", 'success')
+			return redirect(f'/user/{user.username}/searches')
 		if user:
 			login_user(user)
-			if 'search' in session:
-				save_new_search(session['search'], user)
-				del session['search']
-				return redirect(f'/search/{user.username}/searches')
 			return redirect(url_for('index'))
 		
 		flash("Invalid credentials.", 'danger')

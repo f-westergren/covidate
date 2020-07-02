@@ -28,7 +28,6 @@ bcrypt = Bcrypt()
 def edit_profile(username):
 	""" Show Edit User Profile Form """
 	#TODO: Check why username is still taken when changed
-	print(session['user_id'])
 	if current_user.username != username:
 		flash('Access unathorized', 'danger')
 		return redirect(url_for('index'))

@@ -1,15 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if current_user.is_authenticated %}
-  <script>
-    let frontendId = {{ user_id }}
-  </script>
-{% else %}
-<script>
-  let frontendId = false
-</script>
-{% endif %}
 <div class="container mt-4">
   <div class="row">
     <div class="col-12"><h1 class="text-center text-primary mb-2 text-uppercase">Covid-19 Event Search</h1></div>
@@ -35,7 +26,9 @@
     <div class="col">
       <button class="btn btn-primary text-uppercase d-none" id="date-btn">Show Until Today</button>
       <button class="btn btn-primary text-uppercase d-none" id="toggle-btn">Show Deaths</button>
-      <button class="btn btn-outline-primary text-uppercase" id="save-btn">Save Search</button>
+      <form id="save-search-form" method="POST">
+        <button class="btn btn-outline-primary text-uppercase" id="save-btn">Save Search</button>
+      </form>
     </div>  
   </div>
   <div class="row mt-4">
@@ -48,12 +41,6 @@
       </div>
     </div>
   </div>
-  <div class="row mt-4">
-    <div class="col">
-      <div id="deaths-chart"></div>
-    </div>
-  </div>
-  <div class="card p-2" id='chart-test' style="width: 32rem; height: 16rem;"></div>
   </div>
   </div>
 

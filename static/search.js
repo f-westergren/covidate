@@ -1,5 +1,3 @@
-const BASE_URL = 'http://localhost:5000'
-
  // The Search class represents the current search data. 
  // There are helper methods to generate different graphs using the data.
 class Search {
@@ -18,7 +16,7 @@ class Search {
   // Makes POST request to backend and returns newly-created search
   static async create(location, date) {
     console.log('DATE', date)
-    const response = await axios.post(`${BASE_URL}/search`, {
+    const response = await axios.post('/search', {
       "location": location,
       "date": date
     })
@@ -34,15 +32,13 @@ class Search {
   // request to post to searches to save data if user is logegd in
 }
 
-  async save(user_id = undefined) {
-    console.log('user id', user_id)
-    await axios.post(`${BASE_URL}/search/save`, {
+  static async save() {
+    await axios.post('/search/save', {
       "location": this.location,
       "date": this.date,
       "dates": this.dates,
       "cases": this.cases,
       "deaths": this.deaths,
-      "user_id": user_id
     })
   }
 

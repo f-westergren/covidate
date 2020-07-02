@@ -57,10 +57,7 @@ def get_covid_data(date, state, county):
 
 def save_new_search(data, user=False):
   # Change this to use current_user
-  if user:
-    location, date, dates, cases, deaths, user_id = data.values()
-  else: 
-    location, date, dates, cases, deaths = data.values()
+  location, date, dates, cases, deaths = data.values()
   s = Search(
 	  location=location,
 	  date=date, 
@@ -71,7 +68,7 @@ def save_new_search(data, user=False):
 	  description = f'Cases from {date} in {location}', #TODO: Make sure this is in American format
 	)
   if user:
-    user.searches.append(search)
+    user.searches.append(s)
     db.session.commit()
   
   else:

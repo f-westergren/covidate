@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, url_for, jsonify, session, flash
 from flask_login import login_required, current_user
-from flask_cors import cross_origin, CORS
 
 from forms import SearchForm
 from models import Search, db, User
@@ -17,10 +16,8 @@ search_bp = Blueprint('search_bp', __name__,
   static_folder='static'
 )
 
-cors = CORS(search_bp, resources={r'/search': {"origins": "*"}})
 
 @search_bp.route('/search', methods=['POST'])
-@cross_origin(origin='*', headers=['Content-Type','Authorization'])
 def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
@@ -57,22 +54,17 @@ def search():
 # 		"""Delete saved search"""
 
 @search_bp.route('/search/save', methods=['POST'])
-@cross_origin(origin='*', headers=['Content-Type','Authorization'])
 def save_search():
 	""" If user is logged in, save search to user, else save to 
 	session and redirect user to login 
 	"""
-	
-	if 'user_id' in request.json: # Change this to use current_user
-		user = User.query.get(request.json['user_id']) # Change this to current_user
-		save_new_search(request.json, user)
-		# return redirect(f'/user/{u.username}/searches') #Uncomment when CORS is fixed
+
+	if current_user.is_authenticated:
+		save_new_search(request.json, current_user)
+		return redirect(f'/user/{current_user.username}/searches')
 	else:
 		session['search'] = save_new_search(request.json)
-
-	# Add if current_user.is_authenticated
-	# flash('Please login to save search.', 'danger')
+		flash('Please login to save search.', 'danger')
+		return redirect(url_for('auth_bp.login'))
 	
-	# return redirect(url_for('login'))
-	return 'Placeholder until CORS is fixed!'
 
