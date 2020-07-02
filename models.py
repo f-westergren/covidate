@@ -6,7 +6,7 @@ bcrypt = Bcrypt()
 db = SQLAlchemy()
 
 login = LoginManager()
-login.login_view = 'index'
+login.login_view = 'auth_bp.login'
 login.login_message_category = "danger"
 
 class User(UserMixin, db.Model):
@@ -15,7 +15,7 @@ class User(UserMixin, db.Model):
 	__tablename__ = 'users'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	username = db.Column(db.String, nullable=False, unique=True)
-	email = db.Column(db.String, nullable=False, unique=True)
+	email = db.Column(db.String, nullable=False)
 	password = db.Column(db.Text, nullable=False)
 
 	searches = db.relationship('Search', backref="user")

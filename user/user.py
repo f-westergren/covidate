@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, session
 from flask_login import login_required, current_user
 from forms import EditPasswordForm, EditUserForm
 from flask_bcrypt import Bcrypt
@@ -27,9 +27,8 @@ bcrypt = Bcrypt()
 @login_required
 def edit_profile(username):
 	""" Show Edit User Profile Form """
-
 	#TODO: Check why username is still taken when changed
-
+	print(session['user_id'])
 	if current_user.username != username:
 		flash('Access unathorized', 'danger')
 		return redirect(url_for('index'))
@@ -49,15 +48,11 @@ def edit_profile(username):
 				flash('User information updated', 'success')
 				return redirect(url_for('index'))
 
-			except InvalidRequestError:
-				flash('Username already taken', 'danger')
-				return redirect(f'/user{user.username}/profile')
-
-			except IntegrityError:
-				flash('Username already taken', 'danger')
-				return redirect(f'/user{user.username}/profile')
-
-		flash('Invalid credentials.', 'danger')
+			except:
+				db.session.rollback()
+				flash('Username taken.', 'danger')
+		else:
+			flash('Invalid credentials.', 'danger')
   
 	return render_template('profile.html', form=form, btnText='Submit', cancel='index')
 
