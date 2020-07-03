@@ -24,16 +24,19 @@ def get_state_and_county(location):
   state = data['adminArea3']
   county = data['adminArea4']
 
-  # Strip 'County' from county name
-  county_name = county[0:-7] if county[-6:] == 'County' else county
+  # If country not USA
+  if country != 'US':
+    return 'not usa'
 
-  # Only return if location is in US.
-  if country == 'US' and data['geocodeQuality'] != 'COUNTRY':
-    return {'state': states[state], 'county': county_name}
+  # If no county
+  if county == '':
+    return "no county"
 
-  # Otherwise return error string.
-  return "Can't find location in USA."
-    
+  # Strip 'County/Parish' from county name
+  if ' ' in county:
+    county_name = county[0:county.rindex(' ')]
+
+  return {'state': states[state], 'county': county_name}
 
 def get_covid_data(date, state, county):
   """ Get data from COVID-api and return array of dates with data"""
@@ -41,6 +44,9 @@ def get_covid_data(date, state, county):
   date = datetime.strptime(date, '%Y-%m-%d')
   diff = datetime.now() - date
   days = diff.days
+
+  if days < 2:
+    return 'invalid date'
 
   res = requests.get(f'{BASE_COVID_API_URL}/{state}', params={'lastdays': days})
 
@@ -53,27 +59,13 @@ def get_covid_data(date, state, county):
 
       return {'dates': dates, 'cases': cases, 'deaths': deaths}
 
-  return res
+  return 'no data'
 
-def save_new_search(data, user=False):
-  # Change this to use current_user
-  location, date, dates, cases, deaths = data.values()
-  s = Search(
-	  location=location,
-	  date=date, 
-	  dates=dates, 
-	  cases=cases,
-	  deaths=deaths, 
-	  created_at=datetime.now().strftime("%m/%d/%Y"),
-	  description = f'Cases from {date} in {location}', #TODO: Make sure this is in American format
-	)
-  if user:
-    user.searches.append(s)
-    db.session.commit()
-  
-  else:
-    return s.serialize()
-
+def serialize(obj):
+  dict = {}
+  for key, value in obj.items():
+    dict[key] = value
+  return dict
 
   # Error handling for no county
   # Error handling for no state

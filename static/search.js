@@ -15,14 +15,20 @@ class Search {
   // Create and return a new search.
   // Makes POST request to backend and returns newly-created search
   static async create(location, date) {
-    console.log('DATE', date)
     const response = await axios.post('/search', {
       "location": location,
       "date": date
     })
-
-    if (!response.data.cases || !Array.isArray(response.data.cases)) {
-      throw new Error('Invalid data from server')
+    if (response.data === 'not usa') {
+      throw new Error('Please select a location in the US.')
+    } else if (response.data === 'no county') {
+      throw new Error("Can't find county data for the requested location.")
+    } else if (response.data === 'invalid date') {
+      throw new Error('Please select an earlier date.')
+    } else if (response.data === 'no data') { 
+      throw new Error('Unfortunately we have no data for the requested search.')
+    } else if (response.data === "Can't save search right now." || !response.data.cases || !Array.isArray(response.data.cases)) {
+      throw new Error('An unexpected error has occured, please try again later.')
     }
 
     const newSearch = new Search(response.data, location, date)
@@ -32,19 +38,19 @@ class Search {
   // request to post to searches to save data if user is logegd in
 }
 
-  static async save() {
-    await axios.post('/search/save', {
+  async save() {
+    const response = await axios.post('/search/save', {
       "location": this.location,
       "date": this.date,
       "dates": this.dates,
       "cases": this.cases,
       "deaths": this.deaths,
     })
+
+    return response
   }
 
-  // TODO: Add SELECT points with numbers for every 5 days.
   // TODO: Customize tooltip to show case/death increase.
-  // TODO: Fix decimals in y axis
   // TODO: Fix only cities and counties in US.
 
 

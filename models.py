@@ -2,6 +2,7 @@ from flask_login import UserMixin, LoginManager
 from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask.json import JSONEncoder
+from datetime import datetime
 
 bcrypt = Bcrypt()
 db = SQLAlchemy()
@@ -71,18 +72,20 @@ class Search(db.Model):
 	def __repr__(self):
 		return f'<Search id={self.id} location={self.location} date={self.date} user_id={self.user_id}>'
 
-	
-	def serialize(self):
-		return {
-			'location': self.location,
-			'date': self.date,
-			'dates': self.dates,
-			'deaths': self.deaths,
-			'cases': self.cases,
-			'created_at': self.created_at,
-			'description': self.description,
-		}
+	@classmethod
+	def create(cls, searchObj):
+		""" Create a new search instance """
+		search = Search(
+			location=searchObj['location'],
+			date=searchObj['date'],
+			dates=searchObj['dates'],
+			deaths=searchObj['deaths'],
+			cases=searchObj['cases'],
+			created_at=datetime.now().strftime("%m/%d/%Y"),
+			description=f"Cases from {searchObj['date']} in {searchObj['location']}"
+		)
 
+		return search	
 
 @login.user_loader
 def load_user(id):

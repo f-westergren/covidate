@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 
 from forms import SearchForm
 from models import Search, db, User
-from helper import get_covid_data, get_state_and_county, save_new_search
+from helper import get_covid_data, get_state_and_county, serialize
 from datetime import datetime
 
 import requests
@@ -21,13 +21,14 @@ search_bp = Blueprint('search_bp', __name__,
 def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
-	# TODO: Make sure date is not before today's date.
-	# TODO: Add error handling
-
 	if form.validate():
     # Get state and county from location
 		location = get_state_and_county(form.location.data)
     
+		# If answer is not a dict with results, return error message.
+		if type(location) != dict:
+			return location
+
     # Turn date object into string
 		date = str(form.date.data)
 		
@@ -37,9 +38,12 @@ def search():
     # Get cases and deaths for selected dates
 		covid_data = get_covid_data(date, state, county)
 
+		if type(covid_data) != dict:
+			return covid_data
+
 		return jsonify(covid_data)
 		
-	return 'Nope!'
+	return 'invalid request'
 
 	""" Show search or search result """
 
@@ -60,11 +64,12 @@ def save_search():
 	"""
 
 	if current_user.is_authenticated:
-		save_new_search(request.json, current_user)
-		return redirect(f'/user/{current_user.username}/searches')
+		s = Search.create(request.json)
+		current_user.searches.append(s)
+		db.session.commit()
+		return 'saved'
 	else:
-		session['search'] = save_new_search(request.json)
-		flash('Please login to save search.', 'danger')
-		return redirect(url_for('auth_bp.login'))
+		session['search'] = serialize(request.json)
+		return 'login'
 	
 
