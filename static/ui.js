@@ -3,6 +3,8 @@ const loader = document.querySelector('#loader')
 const toggleBtn = document.querySelector('#toggle-btn')
 const dateBtn = document.querySelector('#date-btn')
 const saveBtn = document.querySelector('#save-btn')
+const saveError = document.querySelector('#save-error')
+const searchError = document.querySelector('#search-error')
 
 let currentSearch = null
 let chart = null
@@ -43,22 +45,48 @@ async function processForm(e) {
   document.querySelector('#loader').classList.remove('d-none')
 
   try {
-  const searchInstance = await Search.create(location, date)
-  currentSearch = searchInstance
-  } catch (e) {
-    console.log(e)
-  }
-
+  const response = await Search.create(location, date)
+  currentSearch = response
+  
+  // Render chart from results
   chart = currentSearch.generateChart('#cases-chart')
+
+  // Show buttons
   toggleBtn.classList.remove('d-none')
   dateBtn.classList.remove('d-none')
+  saveBtn.classList.remove('d-none')
+
+  // Hide and update error divs and buttons.
+  saveBtn.innerText = 'Save Search'
+  saveBtn.disabled = false
+  saveError.classList.add('d-none')
+  searchError.classList.add('d-none')
   loader.classList.add('d-none')
+
+  } catch (err) {
+    loader.classList.add('d-none')
+    searchError.classList.remove('d-none')
+    searchError.innerText = err
+  }
 }
 
-document.querySelector('#search-form').addEventListener("submit", processForm)
+async function saveSearch(e) {
+  e.preventDefault()
+  try {
+    const response = await currentSearch.save()
+    if (response.data === 'saved') {
+      saveBtn.innerTex = 'Saved'
+      saveBtn.disabled = true
+    } else if (response.data === 'login') {
+      window.location.href = '/login?saveSearch=true'
+    }
+  } catch (e) {
+    saveError.classList.remove('d-none')
+    saveError.innerText = "Can't save search right now."
+}
+}
+
+document.querySelector('#search-form').addEventListener('submit', processForm)
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
-saveBtn.addEventListener('click', async function() {
-  await currentSearch.save()
-}
-)
+saveBtn.addEventListener('click', saveSearch)

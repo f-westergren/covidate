@@ -4,7 +4,6 @@ from werkzeug.urls import url_parse
 from sqlalchemy.exc import IntegrityError
 from forms import LoginForm, SignupForm
 from models import User, db, Search
-from helper import save_new_search
 
 auth_bp = Blueprint('auth_bp', __name__,
   template_folder='templates',
@@ -15,6 +14,10 @@ auth_bp = Blueprint('auth_bp', __name__,
 def login():
 	""" Show login page with login form """
 
+	# If user has been redirected to save a search, show flash message.
+	if request.args.get('saveSearch') and request.method == 'GET':
+		flash('Please log in to save search.', 'success')
+
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
 	
@@ -24,14 +27,20 @@ def login():
 		username = form.username.data
 		password = form.password.data
 		user = User.authenticate(username, password)
-		if 'search' in session:
-			save_new_search(session['search'], user)
-			del session['search']
-			flash("Search saved", 'success')
-			return redirect(f'/user/{user.username}/searches')
+
 		if user:
 			login_user(user)
-			return redirect(url_for('index'))
+		
+		# If user has saved search in session, save it to database and delete session.
+		if 'search' in session:
+			s = Search.create(session['search'])
+			user.searches.append(s)
+			db.session.commit()
+			del session['search']
+			flash("Search saved", 'success')
+			return redirect(f'/user/{user.username}/searches')		
+		
+		return redirect(url_for('index'))
 		
 		flash("Invalid credentials.", 'danger')
 
