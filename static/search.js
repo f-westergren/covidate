@@ -17,7 +17,8 @@ class Search {
   static async create(location, date) {
     const response = await axios.post('/search', {
       "location": location,
-      "date": date
+      "date": date,
+      "saved": false
     })
     if (response.data === 'not usa') {
       throw new Error('Please select a location in the US.')
@@ -50,6 +51,18 @@ class Search {
     return response
   }
 
+  async load(search_id) {
+    const response = await axios.get(`/search/load`, {
+      params: {
+        id: search_id
+      }
+    })
+
+    const savedSearch = newSearch(response.data, response.data.location, response.data.date)
+
+    return savedSearch
+
+  }
   // TODO: Customize tooltip to show case/death increase.
   // TODO: Fix only cities and counties in US.
 

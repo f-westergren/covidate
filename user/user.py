@@ -88,7 +88,7 @@ def searches(username):
 	""" Show user's searches thumbnails """
 	
 
-	return render_template('/searches.html')
+	return render_template('/searches.html', user=current_user)
 
 # @app.route('/user/<username>/delete', methods=['POST'])
 # @login_required
@@ -97,6 +97,3 @@ def searches(username):
 
 	# Password required for this
 
-# @user_bp.route('/search/save', method=['POST'])
-# @login_required
-# def save_search()

@@ -61,7 +61,7 @@ class Search(db.Model):
 	__tablename__ = 'searches'
 	id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 	location = db.Column(db.String, nullable=False)
-	date = db.Column(db.DateTime, nullable=False)
+	date = db.Column(db.String, nullable=False)
 	dates = db.Column(db.Text, nullable=False)
 	cases = db.Column(db.Text, nullable=False)
 	deaths = db.Column(db.Text, nullable=False)
@@ -81,7 +81,7 @@ class Search(db.Model):
 			dates=searchObj['dates'],
 			deaths=searchObj['deaths'],
 			cases=searchObj['cases'],
-			created_at=datetime.now().strftime("%m/%d/%Y"),
+			created_at=datetime.now(),
 			description=f"Cases from {searchObj['date']} in {searchObj['location']}"
 		)
 

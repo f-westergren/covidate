@@ -13,7 +13,7 @@ class SearchForm(FlaskForm):
 	description = StringField('Description')
 
 class SignupForm(FlaskForm):
-	username = StringField('Username', validators=[DataRequired()])
+	username = StringField('Username', validators=[DataRequired(), Length(min=4)])
 	password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=40)])
 	confirm = PasswordField('Repeat Password', validators=[EqualTo('password', message="Passwords must match")])
 	email = StringField('Email', validators=[DataRequired(), Email(message='Enter a valid email')])
@@ -27,3 +27,6 @@ class EditPasswordForm(FlaskForm):
 	current_password = PasswordField('Current Password', validators=[Length(min=6)])
 	new_password = PasswordField('New Password', validators=[Length(min=6)])
 	confirm = PasswordField('Confirm New Password', validators=[EqualTo('new_password', message="Passwords must match")])
+
+class EditSearchDescriptionForm(FlaskForm):
+	description = StringField('Description (optional)')

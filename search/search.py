@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for, jsonify, session, flash
 from flask_login import login_required, current_user
 
-from forms import SearchForm
+from forms import SearchForm, EditSearchDescriptionForm
 from models import Search, db, User
 from helper import get_covid_data, get_state_and_county, serialize
 from datetime import datetime
@@ -13,11 +13,11 @@ wtforms_json.init()
 
 search_bp = Blueprint('search_bp', __name__,
   template_folder='templates',
-  static_folder='static'
+  static_folder='search-static'
 )
 
 
-@search_bp.route('/search', methods=['POST'])
+@search_bp.route('/search', methods=['POST', 'GET'])
 def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
@@ -47,10 +47,15 @@ def search():
 
 	""" Show search or search result """
 
-# @app.route('/search/<int:search_id>', methods=['GET', 'POST'])
-# @login_required
-# def search(search_id):
-# 	""" Show and edit search """																
+@search_bp.route('/search/<int:search_id>', methods=['GET', 'POST'])
+@login_required
+def show_search(search_id):
+	""" Show search and update search description """
+	search = Search.query.get_or_404(search_id)
+
+	form = EditSearchDescriptionForm(obj=search)
+
+	return render_template('search.html', s=jsonify(search), search=search, form=form, user=current_user)
 
 # @app.route('search/<int:search_id>/delete')
 # @login_required
@@ -71,5 +76,3 @@ def save_search():
 	else:
 		session['search'] = serialize(request.json)
 		return 'login'
-	
-
