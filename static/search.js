@@ -5,6 +5,8 @@ class Search {
     this.deaths = responseObj.deaths
     this.cases = responseObj.cases
     this.dates = responseObj.dates
+    this.created_at = responseObj.created_at
+    this.id = responseObj.id                                                                                                                                                                
     this.location = location
     this.date = date
 
@@ -41,28 +43,30 @@ class Search {
 
   async save() {
     const response = await axios.post('/search/save', {
-      "location": this.location,
+      "location": this.location.replace(', US', ''),
       "date": this.date,
-      "dates": this.dates,
-      "cases": this.cases,
-      "deaths": this.deaths,
+      "dates": this.dates.toString(),
+      "cases": this.cases.toString(),
+      "deaths": this.deaths.toString(),
     })
 
     return response
   }
 
-  async load(search_id) {
-    const response = await axios.get(`/search/load`, {
-      params: {
-        id: search_id
-      }
-    })
-
-    const savedSearch = newSearch(response.data, response.data.location, response.data.date)
+  static async load(search_id) {
+    const response = await axios.get(`/search/load?id=${search_id}`)
+    const savedSearch = new Search(response.data, response.data.location, response.data.date)
 
     return savedSearch
-
   }
+
+  async delete() {
+    const response = await axios.post(`/search/${this.id}/delete`)
+
+    return response.data
+  }
+
+
   // TODO: Customize tooltip to show case/death increase.
   // TODO: Fix only cities and counties in US.
 

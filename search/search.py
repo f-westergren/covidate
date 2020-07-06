@@ -51,16 +51,11 @@ def search():
 @login_required
 def show_search(search_id):
 	""" Show search and update search description """
-	search = Search.query.get_or_404(search_id)
+	s = Search.query.get_or_404(search_id)
 
-	form = EditSearchDescriptionForm(obj=search)
+	form = EditSearchDescriptionForm(obj=s)
 
-	return render_template('search.html', s=jsonify(search), search=search, form=form, user=current_user)
-
-# @app.route('search/<int:search_id>/delete')
-# @login_required
-# 	def delete_search(search_id):
-# 		"""Delete saved search"""
+	return render_template('search.html', search=s, form=form, user=current_user)
 
 @search_bp.route('/search/save', methods=['POST'])
 def save_search():
@@ -76,3 +71,32 @@ def save_search():
 	else:
 		session['search'] = serialize(request.json)
 		return 'login'
+
+@search_bp.route('/search/load', methods=['GET'])
+@login_required
+def load_search():
+
+	search_id = request.args.get('id')
+
+	s = Search.query.get_or_404(search_id)
+
+	s.deaths = s.deaths.split(',')
+	s.dates = s.dates.split(',')
+	s.cases = s.cases.split(',')
+
+	return jsonify(s.serialize())
+
+@search_bp.route('/search/<int:search_id>/delete', methods=['POST'])
+@login_required
+def delete_search(search_id):
+	"""Delete saved search"""
+		
+	s = Search.query.get_or_404(search_id) 
+	if current_user.id != s.user_id:
+		flash('Access unathorized', 'danger')
+		return redirect(url_for('index'))
+		
+	db.session.delete(s)
+	db.session.commit()
+
+	return 'deleted'

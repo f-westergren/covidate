@@ -87,6 +87,17 @@ class Search(db.Model):
 
 		return search	
 
+	def serialize(self):
+		return {
+			'location': self.location,
+			'date': self.date,
+			'dates': self.dates,
+			'deaths': self.deaths,
+			'cases': self.cases,
+			'created_at': self.created_at.strftime('%m/%d/%Y'),
+			'id': self.id
+		}
+
 @login.user_loader
 def load_user(id):
 	return User.query.get(int(id))

@@ -8,7 +8,7 @@ from models import User, db
 
 user_bp = Blueprint('user_bp', __name__,
   template_folder='templates',
-  static_folder='static'
+  static_folder='user-static'
 )
 
 bcrypt = Bcrypt()
