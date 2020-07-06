@@ -74,12 +74,12 @@ def signup():
 
 		except IntegrityError:
 			flash('Username already taken', 'danger')
-			return render_template('/signup.html', form=form)
+			return render_template('/signup.html', form=form, btnText="Sign Up", cancel='index')
 		
 		login_user(user)
 		return redirect(url_for('index'))
 	
-	return render_template('signup.html', form=form)
+	return render_template('signup.html', form=form, btnText="Sign Up", cancel='index')
 
 @auth_bp.route('/logout')
 @login_required
