@@ -4,14 +4,14 @@
   {% for field in form 
     if field.widget.input_type != 'hidden' %}
     <div class='form-group'>
-      {{ field.label (class_='text-uppercase')}}
-      {{ field (class_='form-control') }}
+      {{ field.label (class_="profile-label")}}
+      {{ field (class_="form-control profile-input") }}
 
       {% for error in field.errors %}
       <span class='form-text text-danger'>{{ error }}</span>
       {% endfor %}
     </div>
     {% endfor %}
-    <button class="btn btn-primary text-uppercase">{{btnText}}</button>
-    <a class="btn btn-outline-primary text-uppercase" href="{{ url_for(cancel, username=current_user.username) }}">Cancel</a>
+    <button class="btn btn-secondary">{{btnText}}</button>
+    <a class="btn btn-outline-secondary " href="{{ url_for(cancel, username=current_user.username) }}">Cancel</a>
   </form>

@@ -83,7 +83,7 @@ async function saveSearch(e) {
   } catch (e) {
     saveError.classList.remove('d-none')
     saveError.innerText = "Can't save search right now."
-}
+  }
 }
 
 document.querySelector('#search-form').addEventListener('submit', processForm)

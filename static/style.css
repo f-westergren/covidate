@@ -1,0 +1,51 @@
+.index {
+  background-color: #FFF199;
+}
+
+.profile {
+  background-color: #ACDAAA;
+}
+
+.login, .signup {
+  background-color: #F5DDDD;
+}
+
+.search {
+  background-color: #99d3FF;
+}
+
+#saved-search div {
+  cursor: pointer;
+  transition: box-shadow .3s;
+}
+
+#saved-search div:hover {
+  box-shadow: 4px 4px 11px rgba(33,33,33,.7); 
+}
+
+#wrap {
+  width: 80%;
+  margin: 1em auto;
+  padding: 1em 5%;
+  background: #fff;
+  position: relative;
+}
+
+.profile-input {
+  height: 3.1rem;
+  border: none;
+  box-shadow: 2px 2px 6px rgba(33,33,33,.4); 
+}
+
+.profile-label { 
+  font-size: 1.3rem;
+}
+
+.btn {
+  height: 3.1rem;
+}
+
+a.btn {
+  height: 3.1rem;
+  line-height: 2.1rem;
+}

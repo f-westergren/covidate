@@ -1,0 +1,43 @@
+<form id="search-form" method="POST">  
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" id="search-input" placeholder="Location in USA" name="Location" required />
+    </div>
+    <div class="col-md-6">
+      <input type="date" class="form-control text-uppercase" style="height: 3.1rem;" name="date" id="date" class="form-control" placeholder="Date" required>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md">
+      <span class='form-text text-danger d-none text-center' id='search-error'></span>
+      <button class="btn btn-info float-right mt-4 text-uppercase" type="submit">Search</button>
+  </div>
+</div> 
+</form>
+<div class="row mt-4">
+  <div class="col">
+    <div id="cases-chart"></div>
+    <div class="text-center d-none" id="loader">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col text-center">
+    <button class="btn btn-secondary text-uppercase d-none" id="date-btn">Show Until Today</button>
+    <button class="btn btn-secondary text-uppercase d-none ml-2" id="toggle-btn">Show Deaths</button>
+    <button class="btn btn-secondary text-uppercase d-none ml-2" id="save-btn">Save Search</button>
+  </div>  
+</div>
+<div class="row">
+  <div class="col">
+    <span class='form-text text-danger d-none text-center' id='save-error'></span>
+  </div>
+</div>
+</div>
+
+
+
+

@@ -1,53 +1,76 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-12"><h1 class="text-center text-primary mb-2 text-uppercase">Covid-19 Event Search</h1></div>
-    <div class="col-12"><h2 class="text-center text-secondary mb-4">search for a date and get data on covid spread</h2> </div>
-  </div>
 
-  <form id="search-form" method="POST">  
-    <div class="row">
-      <div class="col-md-6">
-        <input type="text" id="search-input" placeholder="Location in USA" name="Location" required/>
+<body class="index">
+  
+<div class="container">
+    
+  <div class="row align-items-center" style="height: 90vh;">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col">
+          <h1 class="display-5" style="color: #575761;">Covid-19 Outbreak Search</h1></div>
       </div>
-      <div class="col-md-6">
-        <input type="date" class="form-control text-uppercase" style="height: 3.1rem;" name="date" id="date" class="form-control" placeholder="Date" required>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md">
-        <span class='form-text text-danger d-none text-center' id='search-error'></span>
-        <button class="btn btn-info float-right mt-4 text-uppercase" type="submit">Search</button>
-    </div>
-  </div> 
-  </form>
-  <div class="row mt-4">
-    <div class="col">
-      <div id="cases-chart"></div>
-      <div class="text-center d-none" id="loader">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Loading...</span>
+      <div class="row">
+        <div class="col" >
+          <p class="" style="color: #575761; font-size: 1.3rem;">
+            CovidSearch helps you track outbreaks of Covid-19 in USA following certain events. 
+            Select a date and a location and follow the change in cases and deaths.
+          </p>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col text-center">
-      <button class="btn btn-secondary text-uppercase d-none" id="date-btn">Show Until Today</button>
-      <button class="btn btn-secondary text-uppercase d-none ml-2" id="toggle-btn">Show Deaths</button>
-      <button class="btn btn-secondary text-uppercase d-none ml-2" id="save-btn">Save Search</button>
-    </div>  
-  </div>
-  <div class="row">
-    <div class="col">
-      <span class='form-text text-danger d-none text-center' id='save-error'></span>
+    <div class="col-md-6 border rounded bg-white shadow-lg">
+      <div class="row justify-content-center">
+        <div class="col mt-4">
+          <form id="search-form" method="POST">  
+            <div class="row">
+              <div class="col">
+                <input type="text" id="search-input" placeholder="Location in USA" name="Location" class="shadow border-0" required />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mt-4">
+                <input type="date" class="form-control shadow border-0" style="height: 3.1rem;" name="date" id="date" placeholder="Date" required>
+              </div>
+            </div>
+              <div class="row justify-content-center">
+                <div class="col">
+                  <span class='form-text text-danger d-none text-center' id='search-error'></span>
+                  <button class="btn btn-primary mt-4 rounded shadow float-right" style="height: 3.1rem;" type="submit">Search</button>
+                </div>
+              </div> 
+          </form>
+        </div>
+      </div>
+      <div class="row justify-content-center align-items-center" style="height: 40vh;">
+        <div class="col">
+          <div id="cases-chart"></div>
+          <div class="text-center d-none" id="loader">
+            <div class="spinner-border" style="color: #FFF199;" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <button class="btn btn-primary d-none mb-4" style="height: 3.1rem;" id="date-btn">Show Until Today</button>
+          <button class="btn btn-primary d-none ml-2 mb-4" style="height: 3.1rem;" id="toggle-btn">Show Deaths</button>
+          <button class="btn btn-primary d-none ml-2 mb-4" style="height: 3.1rem;" id="save-btn">Save Search</button>
+        </div>  
+      </div>
+      <div class="row">
+        <div class="col">
+          <span class='form-text text-danger d-none text-center' id='save-error'></span>
+        </div>
+      </div>
+      </div>
     </div>
   </div>
-  </div>
+</div>
 
-<script src="https://unpkg.com/d3@5.12.0/dist/d3.min.js"></script>
 <link href="https://unpkg.com/c3@0.7.11/c3.min.css" rel="stylesheet">
 <script src="https://unpkg.com/c3@0.7.11/c3.min.js"></script>
 <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
@@ -55,6 +78,5 @@
 <script src="/static/mapquest.js"></script> 
 <script src="/static/search.js"></script> 
 <script src="/static/ui.js"></script>
-
-<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
+</body>
 {% endblock %}
