@@ -16,7 +16,6 @@ search_bp = Blueprint('search_bp', __name__,
   static_folder='search-static'
 )
 
-
 @search_bp.route('/search', methods=['POST', 'GET'])
 def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
@@ -46,16 +45,6 @@ def search():
 	return 'invalid request'
 
 	""" Show search or search result """
-
-@search_bp.route('/search/<int:search_id>', methods=['GET', 'POST'])
-@login_required
-def show_search(search_id):
-	""" Show search and update search description """
-	s = Search.query.get_or_404(search_id)
-
-	form = EditSearchDescriptionForm(obj=s)
-
-	return render_template('search.html', search=s, form=form, user=current_user)
 
 @search_bp.route('/search/save', methods=['POST'])
 def save_search():
