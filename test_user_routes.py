@@ -4,7 +4,6 @@ from flask import url_for
 
 from models import db, connect_db, User, Search, load_user
 from flask_login import current_user, login_user
-from bs4 import BeautifulSoup
 
 from datetime import datetime
 
@@ -15,8 +14,8 @@ from app import app
 app.config['WTF_CSRF_ENABLED'] = False
 app.config['TESTING'] = True
 
-class UserViewTestCase(TestCase):
-	""" Test views for users """
+class UserRouteTestCase(TestCase):
+	""" Test views for user """
 
 	def setUp(self):
 
@@ -49,21 +48,25 @@ class UserViewTestCase(TestCase):
 	
 	def tearDown(self):
 		db.session.rollback()
-	
+
 	def test_user_searches(self):
 		with self.client as c:
 			c.post('/login', 
 				data={'username': self.testuser.username, 'password': 'password'},
-				follow_redirects=True
-			)
+				follow_redirects=True)
 			
 			res = c.get(f'/user/{self.testuser.username}/searches')
 
 			self.assertEqual(res.status_code, 200)
 			self.assertIn('My searches', str(res.data))
+			self.assertIn('Test location', str(res.data))
+			self.assertIn('Test description', str(res.data))
 
-			# Add more tests here
-	
+			# Check if no searches show up on user search page after search delete
+			res = c.post(f'/search/{self.testsearch_id}/delete')
+			self.assertEqual(res.status_code, 200)
+			res = c.get(f'/user/{self.testuser.username}/searches')
+			self.assertIn('You have no saved searches.', str(res.data))
 	
 	def test_edit_profile(self):
 		with self.client as c:
@@ -139,7 +142,6 @@ class UserViewTestCase(TestCase):
 		self.assertIn('Test description', str(res.data))
 
 		# Check if no searches show up on user search page after search delete
-
 		res = c.post(f'/search/{self.testsearch_id}/delete')
 		self.assertEqual(res.status_code, 200)
 		res = c.get(f'/user/{self.testuser.username}/searches')

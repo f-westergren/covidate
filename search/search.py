@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, url_for, jsonify, session, flash
 from flask_login import login_required, current_user
 
-from forms import SearchForm, EditSearchDescriptionForm
+from forms import SearchForm
 from models import Search, db, User
 from helper import get_covid_data, get_state_and_county, serialize
 from datetime import datetime
@@ -16,7 +16,7 @@ search_bp = Blueprint('search_bp', __name__,
   static_folder='search-static'
 )
 
-@search_bp.route('/search', methods=['POST', 'GET'])
+@search_bp.route('/search', methods=['POST'])
 def search():
 	form = SearchForm.from_json(request.get_json(), csrf_enabled=False)
 
@@ -26,7 +26,7 @@ def search():
     
 		# If answer is not a dict with results, return error message.
 		if type(location) != dict:
-			return location
+			return 'invalid location'
 
     # Turn date object into string
 		date = str(form.date.data)
