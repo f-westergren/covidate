@@ -66,7 +66,7 @@ class Search(db.Model):
 	cases = db.Column(db.Text, nullable=False)
 	deaths = db.Column(db.Text, nullable=False)
 	created_at = db.Column(db.DateTime, nullable=False)
-	description = db.Column(db.Text, nullable=False)
+	description = db.Column(db.Text)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
 	def __repr__(self):
@@ -75,10 +75,6 @@ class Search(db.Model):
 	@classmethod
 	def create(cls, searchObj):
 		""" Create a new search instance """
-		if searchObj['description']:
-			description = searchObj['description']
-		else:
-			description = f"Cases from {searchObj['date']} in {searchObj['location']}"
 
 		search = Search(
 			location=searchObj['location'],
@@ -87,7 +83,7 @@ class Search(db.Model):
 			deaths=searchObj['deaths'],
 			cases=searchObj['cases'],
 			created_at=datetime.now(),
-			description=description
+			description=searchObj['description']
 		)
 
 		return search	
