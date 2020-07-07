@@ -13,21 +13,11 @@ user_bp = Blueprint('user_bp', __name__,
 
 bcrypt = Bcrypt()
 
-# @app.route('/user/<username>')
-# @login_required
-# def user(username):
-# 	""" Show user dashboard with three searches thumbnails """
-
-# 	if username != current_user.username:
-# 		return redirect('/')
-	
-# 	return render_template('user.html', user=user)
-
 @user_bp.route('/user/<username>/profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile(username):
 	""" Show Edit User Profile Form """
-	#TODO: Check why username is still taken when changed
+
 	if current_user.username != username:
 		flash('Access unathorized', 'danger')
 		return redirect(url_for('index'))
@@ -87,13 +77,19 @@ def edit_password(username):
 def searches(username):
 	""" Show user's searches thumbnails """
 	
-
 	return render_template('/searches.html', user=current_user)
 
-# @app.route('/user/<username>/delete', methods=['POST'])
-# @login_required
-# def delete_user(username)
-# 	""" Delete user """
+@user_bp.route('/user/<username>/delete', methods=['POST'])
+@login_required
+def delete_user(username):
+	""" Delete user """
 
-	# Password required for this
+	if current_user.username != username:
+		flash('Access unathorized', 'danger')
+		return redirect(url_for('index'))
 
+	logout_user()
+	db.session.delete(current_user)
+	db.session.commit()
+
+	return redirect(url_for('auth_bp.signup'))
