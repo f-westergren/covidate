@@ -12,11 +12,10 @@ let chart = null
 let showLoader = false
 let showDates = false
 
-async function loadSearch(e) {
-  e.preventDefault()
+async function loadSearch(id) {
   document.querySelector('#loader').classList.remove('d-none')
   try {
-    const response = await Search.load(e.target.parentNode.id)
+    const response = await Search.load(id)
     savedSearch = response
 
     // Render chart from results
@@ -73,6 +72,7 @@ const toggleDeaths = (e) => {
   }
 }
 
+// Delete search
 async function deleteSearch(e) {
   e.preventDefault()
   try { 
@@ -97,7 +97,6 @@ savedSearches.forEach(function(card) {
   }
 )
 
-document.querySelector('.overlay').addEventListener('click', loadSearch)
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
 deleteBtn.addEventListener('click', deleteSearch)

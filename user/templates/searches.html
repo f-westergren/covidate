@@ -16,17 +16,19 @@
     <div class="row align-items-center" style="height: 90vh;">
       <div class="col">
         {% if current_user.searches %}
-        <div class="row" id="saved-search">
+        <ul class="list-group">
+          <li class="list-group-item bg-warning">Your searches
+        </ul>
+        <div class="list-group mb-4">
           {% for search in current_user.searches %}
-          <div class="card m-2" id="{{search.id}}" style="width: 10rem;">
-              <img src="{{ url_for('static', filename='linegraph.jpg') }}" class="card-img-top" alt="line-graph">
-              <div class="card-body">
-                <h5 class="card-title">{{search.location}}</h5>
-              </div>
-              <div class="overlay"></div>
-          </div>
+          <button class="list-group-item list-group-item-action" id={{search.id}} onClick="loadSearch(this.id)">
+            <span class='font-weight-bold'>{{search.location}}</span><br>
+            {% if search.description %}
+            <span>{{search.description}}</span>
+            {% endif %}
+          </button>
           {% endfor %}
-        </div>
+          </div>
         {% else %}
         <h4 class="text-center text-secondary">You have no saved searches.</h4>
         {% endif %}
@@ -46,9 +48,9 @@
         </div>
         <div class="row text-center">
           <div class="col ">
-            <button class="btn btn-warning font-weight-bold text-white d-none mb-4" id="date-btn">Show Until Search Date</button>
-            <button class="btn btn-warning font-weight-bold text-white d-none ml-2 mb-4" id="toggle-btn">Show Deaths</button>
-            <button class="btn btn-warning font-weight-bold text-white d-none ml-2 mb-4" id="delete-btn">Delete</button>
+            <button class="btn btn-warning text-white d-none mb-4" id="date-btn">Show Until Search Date</button>
+            <button class="btn btn-warning text-white d-none ml-2 mb-4" id="toggle-btn">Show Deaths</button>
+            <button class="btn btn-warning text-white d-none ml-2 mb-4" id="delete-btn">Delete</button>
           </div>  
         </div>
         <div class="row">
