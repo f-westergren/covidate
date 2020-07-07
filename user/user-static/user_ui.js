@@ -16,7 +16,7 @@ async function loadSearch(e) {
   e.preventDefault()
   document.querySelector('#loader').classList.remove('d-none')
   try {
-    const response = await Search.load(e.target.id)
+    const response = await Search.load(e.target.parentNode.id)
     savedSearch = response
 
     // Render chart from results
@@ -26,11 +26,11 @@ async function loadSearch(e) {
     toggleBtn.classList.remove('d-none')
     dateBtn.classList.remove('d-none')
     deleteBtn.classList.remove('d-none')
+    deleteBtn.disabled = false
 
     // Show title
     searchHeader.innerText = `${savedSearch.location}`
     searchSubtitle.innerText = `(created at: ${savedSearch.created_at})`
-
     searchHeader.classList.remove('d-none')
     searchSubtitle.classList.remove('d-none')
   
@@ -80,6 +80,7 @@ async function deleteSearch(e) {
     if (response === 'deleted') {
       message.innerText="Search deleted."
       message.classList.remove('d-none')
+      deleteBtn.disabled = true
     } else {
       message.innerText="Can't delete search right now."
       message.classList.remove('d-none')
@@ -89,7 +90,14 @@ async function deleteSearch(e) {
   }
 }
 
-document.querySelector('#saved-search').addEventListener('click', loadSearch)
+const savedSearches = document.querySelectorAll('.overlay')
+
+savedSearches.forEach(function(card) {
+  card.addEventListener('click', loadSearch)
+  }
+)
+
+document.querySelector('.overlay').addEventListener('click', loadSearch)
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
 deleteBtn.addEventListener('click', deleteSearch)

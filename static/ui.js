@@ -87,6 +87,6 @@ async function saveSearch(e) {
 }
 
 document.querySelector('#search-form').addEventListener('submit', processForm)
-dateBtn.addEventListener('click', (e) => toggleAllDates(e))
-toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
+dateBtn.addEventListener('click', toggleAllDates)
+toggleBtn.addEventListener('click', toggleDeaths)
 saveBtn.addEventListener('click', saveSearch)
