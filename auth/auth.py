@@ -38,13 +38,14 @@ def login():
 			db.session.commit()
 			del session['search']
 			flash("Search saved", 'success')
-			return redirect(f'/user/{user.username}/searches')		
-		
+			return redirect(f'/user/{user.username}/searches')	
+
+		flash("Invalid credentials.", 'danger')
 		return redirect(url_for('index'))
 		
-		flash("Invalid credentials.", 'danger')
+		
 
-	return render_template('/login.html', form=form, btnText="Sign In", cancel='index')
+	return render_template('/login.html', form=form, btnText="Log in", cancel='index')
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
