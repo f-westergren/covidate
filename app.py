@@ -28,3 +28,7 @@ def index():
 
 	return render_template("index.html", user=current_user)
 
+@app.route('/about')
+def about():
+	""" Show about page """
+	return render_template("about.html")
