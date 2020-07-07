@@ -47,11 +47,13 @@
 
 .btn {
   height: 3.1rem;
+  font-weight: bold;
 }
 
 a.btn {
   height: 3.1rem;
   line-height: 2.1rem;
+  font-weight: bold;
 }
 
 @media(max-width: 800px){
