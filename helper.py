@@ -33,8 +33,11 @@ def get_state_and_county(location):
     return "no county"
 
   # Strip 'County/Parish' from county name
-  if ' ' in county:
+  if ' ' in county and county != "District of Columbia":
     county_name = county[0:county.rindex(' ')]
+  
+  else:
+    county_name = county
 
   return {'state': states[state], 'county': county_name}
 
