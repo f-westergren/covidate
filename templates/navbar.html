@@ -1,34 +1,34 @@
 
 <div class="container">
-<nav class="navbar navbar-light navbar-expand-sm font-weight-bold mt-4">
-  <a class="navbar-brand text-secondary" href="/"><i class="fas fa-virus fa-2x"></i>
-    CovidSearch
+<nav class="navbar navbar-light navbar-expand-lg font-weight-bold mt-2">
+  <a class="navbar-brand text-secondary" href="{{ url_for('index') }}"><i class="fas fa-virus fa-2x" style=" vertical-align: middle;"></i>
+    CoviDate
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
+  <div class="collapse navbar-collapse flex-grow-1 text-right" id="navbarNav">
     <ul class="navbar-nav ml-auto flex-nowrap">
-  {% if current_user.is_authenticated %}
-      <li class="nav-item text-secondary">
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
         <a href="{{ url_for('user_bp.searches', username=current_user.username) }}" class="nav-link">My searches</a>
       </li>
       <li class="nav-item">
         <a href="{{ url_for('user_bp.edit_profile', username=current_user.username) }}" class="nav-link">Edit profile</a>
       </li>
       <li class="nav-item">
-        <a href="/logout" class="nav-link">Logout</a>
-    </li>
-  {% else %}
-        <li class="nav-item">
-            <a href="/about" class="nav-link ">About</a>
-        </li>
-        <li class="nav-item">
-            <a href="/signup" class="nav-link ">Sign up</a>
-        </li>
-        <li class="nav-item">
-            <a href="/login" class="nav-link">Log in</a>
-        </li>
+        <a href="{{ url_for('auth_bp.logout') }}" class="nav-link">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+          <a href="{{ url_for('about') }}" class="nav-link ">About</a>
+      </li>
+      <li class="nav-item">
+          <a href="{{ url_for('auth_bp.signup') }}" class="nav-link ">Sign up</a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url_for('auth_bp.login') }}" class="nav-link">Log in</a>
+      </li>
     </ul>
 </div>
   {% endif %}
