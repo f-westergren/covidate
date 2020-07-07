@@ -41,13 +41,14 @@ class Search {
   // request to post to searches to save data if user is logegd in
 }
 
-  async save() {
+  async save(description=undefined) {
     const response = await axios.post('/search/save', {
       "location": this.location.replace(', US', ''),
       "date": this.date,
       "dates": this.dates.toString(),
       "cases": this.cases.toString(),
       "deaths": this.deaths.toString(),
+      "description": description
     })
 
     return response

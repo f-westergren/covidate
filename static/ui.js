@@ -5,11 +5,16 @@ const dateBtn = document.querySelector('#date-btn')
 const saveBtn = document.querySelector('#save-btn')
 const saveError = document.querySelector('#save-error')
 const searchError = document.querySelector('#search-error')
+const descriptionDiv = document.querySelector('#description-div')
+const descriptionMsg = document.querySelector('#description-msg')
+
 
 let currentSearch = null
 let chart = null
 let showLoader = false
 let showDates = false
+let showDescription = false
+let description = undefined
 
 // Toggle between showing 15 days from search date or all days until search creation
 const toggleAllDates = (e) => {
@@ -72,17 +77,40 @@ async function processForm(e) {
 
 async function saveSearch(e) {
   e.preventDefault()
-  try {
-    const response = await currentSearch.save()
-    if (response.data === 'saved') {
-      saveBtn.innerTex = 'Saved'
-      saveBtn.disabled = true
-    } else if (response.data === 'login') {
-      window.location.href = '/login?saveSearch=true'
+
+  // If description input field is showing
+  if (showDescription) {
+
+    // Get value from description input
+    let description = document.querySelector('#description').value
+
+    try {
+      const response = await currentSearch.save(description)
+      if (response.data === 'saved') {
+        saveBtn.innerText = 'Saved'
+        saveBtn.disabled = true
+
+        // Deactivate description input field
+        showDescription = false
+      } else if (response.data === 'login') {
+        window.location.href = '/login?saveSearch=true'
+      }
+    } catch (e) {
+      saveError.classList.remove('d-none')
+      saveError.innerText = "Can't save search right now."
     }
-  } catch (e) {
-    saveError.classList.remove('d-none')
-    saveError.innerText = "Can't save search right now."
+
+    // Hide description input field
+    descriptionDiv.classList.add('d-none')
+    descriptionMsg.classList.add('d-none')
+    description.innerText = ''
+
+  } else {
+
+  // Show description input field
+  showDescription = true
+  descriptionDiv.classList.remove('d-none')
+  descriptionMsg.classList.remove('d-none')
   }
 }
 

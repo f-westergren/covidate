@@ -75,6 +75,11 @@ class Search(db.Model):
 	@classmethod
 	def create(cls, searchObj):
 		""" Create a new search instance """
+		if searchObj['description']:
+			description = searchObj['description']
+		else:
+			description = f"Cases from {searchObj['date']} in {searchObj['location']}"
+
 		search = Search(
 			location=searchObj['location'],
 			date=searchObj['date'],
@@ -82,7 +87,7 @@ class Search(db.Model):
 			deaths=searchObj['deaths'],
 			cases=searchObj['cases'],
 			created_at=datetime.now(),
-			description=f"Cases from {searchObj['date']} in {searchObj['location']}"
+			description=description
 		)
 
 		return search	

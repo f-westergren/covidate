@@ -48,10 +48,6 @@
                   />
                 </div>
               </div>
-              <div class="row d-none">
-                <div class="col mt-4" id="description-div">
-                </div>
-              </div>
                 <div class="row justify-content-center">
                   <div class="col">
                     <span class='form-text text-danger d-none text-center' id='search-error'></span>
@@ -72,15 +68,30 @@
           </div>
         </div>
         <div class="row">
-          <div class="col text-center">
-            <button class="btn btn-primary d-none mb-4" id="date-btn">Show Until Today</button>
-            <button class="btn btn-primary d-none ml-2 mb-4" id="toggle-btn">Show Deaths</button>
-            <button class="btn btn-primary d-none ml-2 mb-4" id="save-btn">Save Search</button>
+          <div class="col text-center mb-4">
+            <button class="btn btn-primary d-none" id="date-btn">Show Until Today</button>
+            <button class="btn btn-primary d-none ml-2" id="toggle-btn">Show Deaths</button>
+            <button class="btn btn-primary d-none ml-2" id="save-btn">Save Search</button>
           </div>  
         </div>
         <div class="row">
           <div class="col">
             <span class='form-text text-danger d-none text-center' id='save-error'></span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col my-4 d-none" id="description-div">
+            <span class='form-text d-none text-center mb-2' id='description-msg'>
+              Add a description to your search if you'd like.
+            </span>
+            <input 
+                type="text" 
+                class="form-control shadow border-0" 
+                style="height: 3.1rem;" 
+                name="description" 
+                id="description" 
+                placeholder="Description (optional)" 
+              />
           </div>
         </div>
         </div>
