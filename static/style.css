@@ -14,6 +14,10 @@
   background-color: #99d3FF;
 }
 
+.about {
+  background-color: #E4FDE1;
+}
+
 #saved-search div {
   cursor: pointer;
   transition: box-shadow .3s;
@@ -48,4 +52,17 @@
 a.btn {
   height: 3.1rem;
   line-height: 2.1rem;
+}
+
+@media(max-width: 800px){
+  .icon {
+  display: none;
+  }
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
 }
