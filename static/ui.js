@@ -20,11 +20,11 @@ let description = undefined
 const toggleAllDates = (e) => {
   if (!showDates) {
     currentSearch.showAllDates(chart)
-    e.target.innerText = 'Show 15 Days'
+    e.target.innerText = 'Show 15 days'
     showDates = true
   } else {
     currentSearch.showFifteenDates(chart)
-    e.target.innerText = 'Show Until Today'
+    e.target.innerText = 'Show until today'
     showDates = false
   }
 }
@@ -32,12 +32,13 @@ const toggleAllDates = (e) => {
 // Toggle between showing deaths and showing cases 
 const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
+  console.log('SHOWDATES', showDates)
   if (legend == 'deaths') {
     currentSearch.showCases(showDates)
-    e.target.innerText = 'Show Deaths'
+    e.target.innerText = 'Show deaths'
   } else {
     currentSearch.showDeaths(showDates)
-    e.target.innerText = 'Show Cases'
+    e.target.innerText = 'Show cases'
   }
 }
 
@@ -46,7 +47,6 @@ async function processForm(e) {
   const location = document.querySelector('#search-input').value
   const date = document.querySelector('#date').value
 
-  // TODO: Add if statement to check value.
   document.querySelector('#loader').classList.remove('d-none')
 
   try {
@@ -59,6 +59,7 @@ async function processForm(e) {
   // Show buttons
   toggleBtn.classList.remove('d-none')
   dateBtn.classList.remove('d-none')
+  dateBtn.innerText='Show 15 days'
   saveBtn.classList.remove('d-none')
 
   // Hide and update error divs and buttons.
