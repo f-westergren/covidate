@@ -53,6 +53,15 @@ a.btn {
   }
 
   #saved-chart {
-    height: auto;
+    min-height: 20rem;
   }
+}
+
+.img-icon{
+  filter: invert(32%) sepia(2%) saturate(2433%) hue-rotate(202deg) brightness(97%) contrast(82%);
+  opacity: 0.4;
+}
+
+.img-icon:hover {
+  opacity: 0.8;
 }
