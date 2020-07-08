@@ -11,13 +11,11 @@ The website does not aim to provide a service to a specific demographic, it will
 
 **Data**
 
-The website will use a geolocation API such as Mapquest (https://developer.mapquest.com/documentation/geocoding-api/) to let the user select a location for their search, and using that location it will get data from a suitable COVID-19 API. Most of the data (if not all) will be pulled from NovelCOVID API (https://disease.sh/docs), which provides detailed historical information per county, province and subregion. 
+The website uses Mapquest's geolocation API (https://developer.mapquest.com/documentation/geocoding-api/) to let the user select a location for their search, and using that location it will get data from a suitable COVID-19 API. The data is pulled from NovelCOVID API (https://disease.sh/docs), which provides detailed historical information per county, province and subregion. 
 
 The database schema consists of two tables - users and searches. It can be found here: https://dbdiagram.io/d/5eeaab869ea313663b3ab643.
 
 
 **User Flow**
 
-The front page might feature some Covid-related news or some interesting date searches. Anyone who goes to the site can do a date search. Enter location date and get a result. The searches that will provide results that look visually good. Ideally there will be a graph as well as data outlining the change in cases. Functionality will include user registration, save searches, modify searches, delete searches and copy searches. 
-
-Once users have created a search, they will have the option to save that search. If they do they will be prompted to register or log in. When they are logged in, they will have a simple dashboard with a link to their searches and the front page search field. They will be able to edit their searches, delete them, or copy them and create a new modified search from the copied search. 
+The front page might feature some Covid-related news or some interesting date searches. Anyone who goes to the site can do a date search. Enter location date and get a result. C3.js is used to generate charts from the results. Functionality includes user registration, edit user, save searches, delete searches and copy searches. 
