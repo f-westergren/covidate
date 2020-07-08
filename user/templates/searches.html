@@ -11,13 +11,13 @@
   <link rel="icon" type="image/ico" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
-<body class="search">
+<body style="background-color: {{color}};">
   <div class="container">
     {% include 'navbar.html' %}
     {% for category, message in get_flashed_messages(with_categories=True) %}
     <div class="alert alert-{{ category }}">{{ message }}</div>
     {% endfor %}
-    <div class="row align-items-center" style="height: 90vh;">
+    <div class="row align-items-center" style="height: 80vh;">
       <div class="col m-2">
         {% if current_user.searches %}
         <ul class="list-group shadow-lg">

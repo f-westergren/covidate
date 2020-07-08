@@ -26,9 +26,9 @@ login.init_app(app)
 def index():
 	""" Show index page with search form """
 
-	return render_template("index.html", user=current_user)
+	return render_template("index.html", user=current_user, color="#FFF199")
 
 @app.route('/about')
 def about():
 	""" Show about page """
-	return render_template("about.html")
+	return render_template("about.html", color="#E4FDE1")

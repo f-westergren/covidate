@@ -11,10 +11,7 @@ import wtforms_json
 
 wtforms_json.init()
 
-search_bp = Blueprint('search_bp', __name__,
-  template_folder='templates',
-  static_folder='search-static'
-)
+search_bp = Blueprint('search_bp', __name__)
 
 @search_bp.route('/search', methods=['POST'])
 def search():

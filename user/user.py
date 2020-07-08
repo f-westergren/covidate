@@ -43,7 +43,7 @@ def edit_profile(username):
 		else:
 			flash('Invalid credentials.', 'danger')
   
-	return render_template('profile.html', form=form, btnText='Submit', cancel='index')
+	return render_template('profile.html', form=form, btnText='Submit', cancel='index', color="#ACDAAA")
 
 @user_bp.route('/user/<username>/password', methods=['GET', 'POST'])
 @login_required
@@ -70,14 +70,14 @@ def edit_password(username):
 
 		flash('Incorrect password.', 'danger')
 
-	return render_template('password.html', form=form, btnText='Submit', cancel='user_bp.edit_profile')
+	return render_template('password.html', form=form, btnText='Submit', cancel='user_bp.edit_profile', color="#FFF199")
 
 @user_bp.route('/user/<username>/searches')
 @login_required
 def searches(username):
 	""" Show user's searches thumbnails """
 	
-	return render_template('/searches.html', user=current_user)
+	return render_template('/searches.html', user=current_user, color="#99d3FF")
 
 @user_bp.route('/user/<username>/delete', methods=['POST'])
 @login_required
