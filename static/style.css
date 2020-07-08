@@ -56,15 +56,23 @@ a.btn {
   font-weight: bold;
 }
 
-@media(max-width: 800px){
-  .icon {
-  display: none;
-  }
-}
-
 .overlay {
   height: 100%;
   width: 100%;
   opacity: 0;
   position: absolute;
+}
+
+#saved-chart {
+  height: 32rem;
+}
+
+@media(max-width: 800px){
+  .icon {
+  display: none;
+  }
+
+  #saved-chart {
+    height: auto;
+  }
 }

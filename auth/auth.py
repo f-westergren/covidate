@@ -32,19 +32,18 @@ def login():
 			login_user(user)
 		
 		# If user has saved search in session, save it to database and delete session.
-		if 'search' in session:
-			s = Search.create(session['search'])
-			user.searches.append(s)
-			db.session.commit()
-			del session['search']
-			flash("Search saved", 'success')
-			return redirect(f'/user/{user.username}/searches')	
+			if 'search' in session:
+				s = Search.create(session['search'])
+				user.searches.append(s)
+				db.session.commit()
+				del session['search']
+				flash("Search saved", 'success')
+				return redirect(f'/user/{user.username}/searches')
+
+			return redirect(url_for('index'))
 
 		flash("Invalid credentials.", 'danger')
-		return redirect(url_for('index'))
 		
-		
-
 	return render_template('/login.html', form=form, btnText="Log in", cancel='index')
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -75,7 +74,7 @@ def signup():
 
 		except IntegrityError:
 			flash('Username already taken', 'danger')
-			return render_template('/signup.html', form=form, btnText="Sign Up", cancel='index')
+			return redirect(url_for('auth_bp.signup'))
 		
 		login_user(user)
 		return redirect(url_for('index'))

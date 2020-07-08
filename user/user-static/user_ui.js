@@ -6,6 +6,7 @@ const deleteBtn = document.querySelector('#delete-btn')
 const message = document.querySelector('#message')
 const searchHeader = document.querySelector('#search-heading')
 const searchSubtitle = document.querySelector('#search-subtitle')
+const casesChart = document.querySelector('#cases-chart')
 
 let savedSearch = null
 let chart = null
@@ -13,13 +14,22 @@ let showLoader = false
 let showDates = false
 
 async function loadSearch(id) {
-  document.querySelector('#loader').classList.remove('d-none')
+  // Hide everything bui loader
+  loader.classList.remove('d-none')
+  casesChart.classList.add('d-none')
+  toggleBtn.classList.add('d-none')
+  dateBtn.classList.add('d-none')
+  deleteBtn.classList.add('d-none')
+  searchHeader.classList.add('d-none')
+  searchSubtitle.classList.add('d-none')
+
   try {
     const response = await Search.load(id)
     savedSearch = response
 
     // Render chart from results
     chart = savedSearch.generateChart('#cases-chart')
+    casesChart.classList.remove('d-none')
   
     // Show buttons
     toggleBtn.classList.remove('d-none')
