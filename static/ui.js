@@ -31,7 +31,7 @@ const toggleAllDates = (e) => {
 // Toggle between showing deaths and showing cases 
 const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
-
+  
   if (legend == 'deaths') {
     currentSearch.showCases(showDates)
     e.target.innerText = 'Show deaths'

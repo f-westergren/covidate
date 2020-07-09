@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for, flash, session
+from flask import Blueprint, render_template, redirect, request, url_for, flash, session, Markup
 from flask_login import login_required, logout_user, current_user, login_user
 from werkzeug.urls import url_parse
 from sqlalchemy.exc import IntegrityError
@@ -6,8 +6,7 @@ from forms import LoginForm, SignupForm
 from models import User, db, Search
 
 auth_bp = Blueprint('auth_bp', __name__,
-  template_folder='templates',
-  static_folder='static'
+  template_folder='templates'
 )
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -16,7 +15,9 @@ def login():
 
 	# If user has been redirected to save a search, show flash message.
 	if request.args.get('saveSearch') and request.method == 'GET':
-		flash('Please log in to save search.', 'success')
+		flash(Markup(
+			'Please log in to save search. Don\'t have an account? Register <a href="/signup">here</a>'), 
+			'danger')
 
 	if current_user.is_authenticated:
 		return redirect(url_for('index'))
@@ -44,7 +45,7 @@ def login():
 
 		flash("Invalid credentials.", 'danger')
 		
-	return render_template('/login.html', form=form, btnText="Log in", cancel='index', color="#F5DDDD")
+	return render_template('/login.html', form=form, btnText="Log in", cancel='index', color="#FFF199")
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -79,7 +80,7 @@ def signup():
 		login_user(user)
 		return redirect(url_for('index'))
 	
-	return render_template('signup.html', form=form, btnText="Sign Up", cancel='index', color="#F5DDDD")
+	return render_template('signup.html', form=form, btnText="Sign Up", cancel='index', color="#FFF199")
 
 @auth_bp.route('/logout')
 @login_required

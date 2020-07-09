@@ -67,11 +67,6 @@ class Search {
     return response.data
   }
 
-
-  // TODO: Customize tooltip to show case/death increase.
-  // TODO: Fix only cities and counties in US.
-
-
   // Method for generating chart from data and append to selected div.
   generateChart(div, cases=this.cases, deaths=this.deaths, label='cases') {
 

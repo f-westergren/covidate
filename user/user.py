@@ -43,7 +43,12 @@ def edit_profile(username):
 		else:
 			flash('Invalid credentials.', 'danger')
   
-	return render_template('profile.html', form=form, btnText='Submit', cancel='index', color="#ACDAAA")
+	return render_template('profile.html', 
+		form=form, 
+		btnText='Submit', 
+		cancel='index', 
+		color="#ACDAAA"
+	)
 
 @user_bp.route('/user/<username>/password', methods=['GET', 'POST'])
 @login_required
@@ -66,11 +71,16 @@ def edit_password(username):
 			user.password = hashed_pwd
 			db.session.commit()
 			flash('Password updated!', 'success')
-			return redirect(url_for('user_bp.edit_profile', username=current_user.username))
+			return redirect(url_for('user_bp.edit_profile', username=user.username))
 
 		flash('Incorrect password.', 'danger')
 
-	return render_template('password.html', form=form, btnText='Submit', cancel='user_bp.edit_profile', color="#FFF199")
+	return render_template('password.html', 
+		form=form, 
+		btnText='Submit', 
+		cancel='user_bp.edit_profile', 
+		color="#FFF199"
+	)
 
 @user_bp.route('/user/<username>/searches')
 @login_required

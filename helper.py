@@ -34,7 +34,7 @@ def get_state_and_county(location):
   if county == '':
     return "no county"
 
-  # Strip 'County/Parish' from county name
+  # Strip 'County/Parish' from county name (except DC)
   if ' ' in county and county != "District of Columbia":
     county_name = county[0:county.rindex(' ')]
   
@@ -71,20 +71,3 @@ def serialize(obj):
   for key, value in obj.items():
     dict[key] = value
   return dict
-
-  # Error handling for no county
-  # Error handling for no state
-  # Error handling for no data?
-  
-
-
-# Räkna ut dagar att requesta
-  # dagens datum minuns requestat datum
-  # det här blir parameter lastdays
-
-# Requesta med stat som stat och lastdays som lastsdays
-
-# Ta ut resultat beroende på vilket county.
-
-# Lägg resultatet med datumen i en array?
-

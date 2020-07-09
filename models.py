@@ -53,7 +53,6 @@ class User(UserMixin, db.Model):
 			return u
 		else:
 			return False
-	
 			
 class Search(db.Model):
 	""" Searches """
