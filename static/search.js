@@ -73,7 +73,7 @@ class Search {
 
 
   // Method for generating chart from data and append to selected div.
-  generateChart(div, covidData=this.cases, label='cases') {
+  generateChart(div, cases=this.cases, deaths=this.deaths, label='cases') {
 
     // Add datelines with grid line every five days
     let dateLines = []
@@ -91,7 +91,7 @@ class Search {
         xFormat: '%m-%d-%y',
         columns: [
           ['x', ...this.dates.slice(0, this.days)],
-          [label, ...covidData.slice(0, this.days)]
+          [label, ...cases.slice(0, this.days)],
         ]
       },
       grid: {
@@ -113,13 +113,24 @@ class Search {
               }
           }
         }
-      }
+      },
+      tooltip: {
+        format: {
+            value: function (value, ratio, id) {
+              let diff = 0
+              if (id === 'cases') {
+                diff = value - cases[0]
+              } else if (id === 'deaths') {
+                diff = value - deaths[0]
+              }
+              return `${value} (increase of ${diff} ${id})`
+            }
+        }
+    }
     })
 
     return chart
   }
-
-   // TODO: Add animation to when reverting graph.
 
   // Method for generating chart from data and append to selected div.
   showAllDates(chart) {
