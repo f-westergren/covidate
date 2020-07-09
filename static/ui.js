@@ -59,7 +59,7 @@ async function processForm(e) {
   // Show buttons
   toggleBtn.classList.remove('d-none')
   dateBtn.classList.remove('d-none')
-  dateBtn.innerText='Show 15 days'
+  dateBtn.innerText='Show until today'
   saveBtn.classList.remove('d-none')
 
   // Hide and update error divs and buttons.
