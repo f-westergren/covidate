@@ -140,6 +140,7 @@ class Search {
 
     // Render chart
     chart.flow({
+      unload: false,
       columns: [
         ['x', ...this.dates.slice(this.days)],
         [legend, ...data.slice(this.days)]

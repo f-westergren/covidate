@@ -8,7 +8,6 @@ const searchError = document.querySelector('#search-error')
 const descriptionDiv = document.querySelector('#description-div')
 const descriptionMsg = document.querySelector('#description-msg')
 
-
 let currentSearch = null
 let chart = null
 let showLoader = false
@@ -32,7 +31,7 @@ const toggleAllDates = (e) => {
 // Toggle between showing deaths and showing cases 
 const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
-  console.log('SHOWDATES', showDates)
+
   if (legend == 'deaths') {
     currentSearch.showCases(showDates)
     e.target.innerText = 'Show deaths'
@@ -52,7 +51,7 @@ async function processForm(e) {
   try {
   const response = await Search.create(location, date)
   currentSearch = response
-  
+
   // Render chart from results
   chart = currentSearch.generateChart('#cases-chart')
 
