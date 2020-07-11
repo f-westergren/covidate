@@ -33,12 +33,16 @@ const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
   
   if (legend == 'deaths') {
-    currentSearch.showCases(showDates)
+    currentSearch.showCases(showDates, chart)
     e.target.innerText = 'Show deaths'
   } else {
-    currentSearch.showDeaths(showDates)
+    currentSearch.showDeaths(showDates, chart)
     e.target.innerText = 'Show cases'
   }
+}
+
+const showChange = (e) => {
+  chart.toggle('change')
 }
 
 async function processForm(e) {
@@ -114,7 +118,10 @@ async function saveSearch(e) {
   }
 }
 
+
+
 document.querySelector('#search-form').addEventListener('submit', processForm)
 dateBtn.addEventListener('click', toggleAllDates)
 toggleBtn.addEventListener('click', toggleDeaths)
 saveBtn.addEventListener('click', saveSearch)
+document.querySelector('#change-btn').addEventListener('click', showChange)
