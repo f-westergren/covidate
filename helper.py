@@ -1,6 +1,5 @@
 import os
 import requests
-from secrets import MAPQUEST_KEY
 from states import states
 from datetime import datetime
 from models import db, Search, User
@@ -8,7 +7,7 @@ from models import db, Search, User
 BASE_MAP_API_URL = 'http://www.mapquestapi.com/geocoding/v1'
 BASE_COVID_API_URL = 'https://corona.lmao.ninja/v2/historical/usacounties'
 
-MAPQUEST_API_KEY = os.environ.get('MAPQUEST_API') or MAPQUEST_KEY
+MAPQUEST_API_KEY = os.environ.get('MAPQUEST_API')
 
 def get_state_and_county(location):
   """ Get locations from api from input location"""
