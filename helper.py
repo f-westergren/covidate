@@ -1,5 +1,6 @@
 import os
 import requests
+from secrets import MAPQUEST_KEY
 from states import states
 from datetime import datetime
 from models import db, Search, User
@@ -7,7 +8,7 @@ from models import db, Search, User
 BASE_MAP_API_URL = 'http://www.mapquestapi.com/geocoding/v1'
 BASE_COVID_API_URL = 'https://corona.lmao.ninja/v2/historical/usacounties'
 
-MAPQUEST_API_KEY = os.environ.get('MAPQUEST_API')
+MAPQUEST_API_KEY = os.environ.get('MAPQUEST_API') or MAPQUEST_KEY
 
 def get_state_and_county(location):
   """ Get locations from api from input location"""
@@ -52,7 +53,6 @@ def get_covid_data(date, state, county):
 
   if days < 2:
     return 'invalid date'
-
   res = requests.get(f'{BASE_COVID_API_URL}/{state}', params={'lastdays': days})
 
   for c in res.json():
@@ -61,8 +61,17 @@ def get_covid_data(date, state, county):
       dates = [date.replace('/', '-') for date in timeline['cases']]
       cases = [timeline['cases'][num] for num in timeline['cases']]
       deaths = [timeline['deaths'][num] for num in timeline['deaths']]
-
-      return {'dates': dates, 'cases': cases, 'deaths': deaths}
+      change_cases = [y - x for x, y in zip(cases, cases[1:])]
+      change_cases.insert(0, None)
+      change_deaths = [y - x for x, y in zip(deaths, deaths[1:])]
+      change_deaths.insert(0, None)
+      return {
+        'dates': dates, 
+        'cases': cases, 
+        'deaths': deaths, 
+        'change_cases': change_cases, 
+        'change_deaths': change_deaths
+      }
 
   return 'no data'
 

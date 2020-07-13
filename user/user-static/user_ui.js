@@ -3,6 +3,7 @@ const loader = document.querySelector('#loader')
 const toggleBtn = document.querySelector('#toggle-btn')
 const dateBtn = document.querySelector('#date-btn')
 const deleteBtn = document.querySelector('#delete-btn')
+const changeBtn = document.querySelector('#change-btn')
 const message = document.querySelector('#message')
 const searchHeader = document.querySelector('#search-heading')
 const searchSubtitle = document.querySelector('#search-subtitle')
@@ -14,58 +15,43 @@ let showLoader = false
 let showDates = false
 
 async function loadSearch(id) {
+
   // Hide everything bui loader
+  hide([casesChart, toggleBtn, dateBtn, deleteBtn, searchHeader, searchSubtitle, changeBtn])
   loader.classList.remove('d-none')
-  casesChart.classList.add('d-none')
-  toggleBtn.classList.add('d-none')
-  dateBtn.classList.add('d-none')
-  deleteBtn.classList.add('d-none')
-  searchHeader.classList.add('d-none')
-  searchSubtitle.classList.add('d-none')
 
   try {
     const response = await Search.load(id)
     savedSearch = response
 
-    // Render chart from results
+    // Render chart from results and show buttons and title
     chart = savedSearch.generateChart('#cases-chart')
-    casesChart.classList.remove('d-none')
-  
-    // Show buttons
-    toggleBtn.classList.remove('d-none')
-    dateBtn.classList.remove('d-none')
-    deleteBtn.classList.remove('d-none')
-    deleteBtn.disabled = false
+    show([casesChart, toggleBtn, dateBtn, deleteBtn, searchHeader, searchSubtitle, changeBtn])
 
-    // Show title
+    deleteBtn.disabled = false
     searchHeader.innerText = `${savedSearch.location}`
-    searchSubtitle.innerText = `(created at: ${savedSearch.created_at})`
-    searchHeader.classList.remove('d-none')
-    searchSubtitle.classList.remove('d-none')
+    searchSubtitle.innerText = `(created at: ${savedSearch.createdAt})`
   
     // Hide and update error divs and buttons.
-    message.classList.add('d-none')
+    hide([message, loader])
     message.innerText = ''
-    loader.classList.add('d-none')
   
     } catch (err) {
       loader.classList.add('d-none')
       message.classList.remove('d-none')
       message.innerText = "Can't load search."
     }
-    
-  chart = savedSearch.generateChart('#cases-chart')
 }
 
 // Toggle between showing 15 days from search date or all days until search creation
 const toggleAllDates = (e) => {
   if (!showDates) {
     savedSearch.showAllDates(chart)
-    e.target.innerText = 'Show 15 Days'
+    e.target.innerText = '15 days'
     showDates = true
   } else {
     savedSearch.showFifteenDates(chart)
-    e.target.innerText = 'Show Until Today'
+    e.target.innerText = 'To search date'
     showDates = false
   }
 }
@@ -74,11 +60,11 @@ const toggleAllDates = (e) => {
 const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
   if (legend == 'deaths') {
-    savedSearch.showCases(showDates)
-    e.target.innerText = 'Show Deaths'
+    savedSearch.showCases(showDates, chart)
+    e.target.innerText = 'Show deaths'
   } else {
-    savedSearch.showDeaths(showDates)
-    e.target.innerText = 'Show Cases'
+    savedSearch.showDeaths(showDates, chart)
+    e.target.innerText = 'Show cases'
   }
 }
 
@@ -100,15 +86,20 @@ async function deleteSearch(e) {
   }
 }
 
-const savedSearches = document.querySelectorAll('.overlay')
+const showChange = () => {
+  chart.toggle('change')
+  changeBtn.innerText = (changeBtn.innerText === 'Show change') ? 'Hide change' : 'Show change'
+}
 
-savedSearches.forEach(function(card) {
-  card.addEventListener('click', loadSearch)
-  }
-)
+const show = (btns) => btns.forEach(btn => btn.classList.remove('d-none'))
+const hide = (btns) => btns.forEach(btn => btn.classList.add('d-none'))
+
+const savedSearches = document.querySelectorAll('.overlay')
+savedSearches.forEach((card) => card.addEventListener('click', loadSearch))
 
 dateBtn.addEventListener('click', (e) => toggleAllDates(e))
 toggleBtn.addEventListener('click', (e) => toggleDeaths(e))
 deleteBtn.addEventListener('click', deleteSearch)
+changeBtn.addEventListener('click', showChange)
 
 

@@ -63,7 +63,9 @@ class Search(db.Model):
 	date = db.Column(db.String, nullable=False)
 	dates = db.Column(db.Text, nullable=False)
 	cases = db.Column(db.Text, nullable=False)
+	change_cases = db.Column(db.Text, nullable=False)
 	deaths = db.Column(db.Text, nullable=False)
+	change_deaths = db.Column(db.Text, nullable=False)
 	created_at = db.Column(db.DateTime, nullable=False)
 	description = db.Column(db.Text)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
@@ -80,7 +82,9 @@ class Search(db.Model):
 			date=searchObj['date'],
 			dates=searchObj['dates'],
 			deaths=searchObj['deaths'],
+			change_deaths=searchObj['change_deaths'],
 			cases=searchObj['cases'],
+			change_cases=searchObj['change_cases'],
 			created_at=datetime.now(),
 			description=searchObj['description']
 		)
@@ -93,7 +97,9 @@ class Search(db.Model):
 			'date': self.date,
 			'dates': self.dates,
 			'deaths': self.deaths,
+			'change_deaths': self.change_deaths,
 			'cases': self.cases,
+			'change_cases': self.change_cases,
 			'created_at': self.created_at.strftime('%m/%d/%Y'),
 			'id': self.id
 		}

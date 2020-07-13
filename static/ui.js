@@ -3,6 +3,7 @@ const loader = document.querySelector('#loader')
 const toggleBtn = document.querySelector('#toggle-btn')
 const dateBtn = document.querySelector('#date-btn')
 const saveBtn = document.querySelector('#save-btn')
+const changeBtn = document.querySelector('#change-btn')
 const saveError = document.querySelector('#save-error')
 const searchError = document.querySelector('#search-error')
 const descriptionDiv = document.querySelector('#description-div')
@@ -23,7 +24,7 @@ const toggleAllDates = (e) => {
     showDates = true
   } else {
     currentSearch.showFifteenDates(chart)
-    e.target.innerText = 'Show until today'
+    e.target.innerText = 'Show to today'
     showDates = false
   }
 }
@@ -41,8 +42,12 @@ const toggleDeaths = (e) => {
   }
 }
 
-const showChange = (e) => {
+const show = (btns) => btns.forEach(btn => btn.classList.remove('d-none'))
+const hide = (btns) => btns.forEach(btn => btn.classList.add('d-none'))
+
+const showChange = () => {
   chart.toggle('change')
+  changeBtn.innerText = (changeBtn.innerText === 'Show change') ? 'Hide change' : 'Show change'
 }
 
 async function processForm(e) {
@@ -50,7 +55,7 @@ async function processForm(e) {
   const location = document.querySelector('#search-input').value
   const date = document.querySelector('#date').value
 
-  document.querySelector('#loader').classList.remove('d-none')
+  show([loader])
 
   try {
   const response = await Search.create(location, date)
@@ -60,21 +65,17 @@ async function processForm(e) {
   chart = currentSearch.generateChart('#cases-chart')
 
   // Show buttons
-  toggleBtn.classList.remove('d-none')
-  dateBtn.classList.remove('d-none')
-  dateBtn.innerText='Show until today'
-  saveBtn.classList.remove('d-none')
+  show([toggleBtn, dateBtn, saveBtn, changeBtn])
+  dateBtn.innerText='Show to today'
 
   // Hide and update error divs and buttons.
-  saveBtn.innerText = 'Save Search'
+  hide([saveError, searchError, loader])
+  saveBtn.innerText = 'Save search'
   saveBtn.disabled = false
-  saveError.classList.add('d-none')
-  searchError.classList.add('d-none')
-  loader.classList.add('d-none')
 
   } catch (err) {
-    loader.classList.add('d-none')
-    searchError.classList.remove('d-none')
+    hide([loader])
+    show([searchError])
     searchError.innerText = err
   }
 }
@@ -100,25 +101,22 @@ async function saveSearch(e) {
         window.location.href = '/login?saveSearch=true'
       }
     } catch (e) {
-      saveError.classList.remove('d-none')
+      show([searchError])
       saveError.innerText = "Can't save search right now."
     }
 
     // Hide description input field
-    descriptionDiv.classList.add('d-none')
-    descriptionMsg.classList.add('d-none')
+    hide([descriptionDiv, descriptionMsg])
     description.innerText = ''
 
   } else {
 
   // Show description input field
   showDescription = true
-  descriptionDiv.classList.remove('d-none')
-  descriptionMsg.classList.remove('d-none')
+  show([descriptionDiv, descriptionMsg])
+
   }
 }
-
-
 
 document.querySelector('#search-form').addEventListener('submit', processForm)
 dateBtn.addEventListener('click', toggleAllDates)

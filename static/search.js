@@ -48,12 +48,11 @@ class Search {
       "date": this.date,
       "dates": this.dates.toString(),
       "cases": this.cases.toString(),
-      "changeCases": this.changeCases.toString(),
+      "change_cases": this.changeCases.toString(),
       "deaths": this.deaths.toString(),
-      "changeDeaths": this.changeDeaths.toString(),
+      "change_deaths": this.changeDeaths.toString(),
       "description": description
     })
-
     return response
   }
 
@@ -96,7 +95,6 @@ class Search {
         axes: {
           label: 'y1',
           change: 'y2'
-
         }
       },
       grid: {
@@ -117,9 +115,6 @@ class Search {
                   return (parseInt(d) == d) ? d : null;
               }
           }
-        },
-        y2: {
-          show: true
         }
       },
       tooltip: {
@@ -148,14 +143,23 @@ class Search {
   showAllDates(chart) {
     // Check to see if currently showing deaths or cases and set data accordingly
     let legend = document.querySelector('.c3-legend-item').textContent 
-    let data = (legend == 'deaths') ? this.deaths : this.cases
+    let data, changeData;
+
+    if (legend === 'deaths') {
+      data = this.deaths
+      changeData = this.changeDeaths
+    } else {
+      data = this.cases
+      changeData = this.changeCases
+    }
 
     // Render chart
     chart.flow({
       unload: false,
       columns: [
         ['x', ...this.dates.slice(this.days)],
-        [legend, ...data.slice(this.days)]
+        [legend, ...data.slice(this.days)],
+        ['change', ...changeData.slice(this.days)]
       ],
       duration: 1500,
       length: 0
@@ -166,14 +170,23 @@ class Search {
   showFifteenDates(chart) {
     // Check to see if currently showing deaths or cases and set data accordingly
     let legend = document.querySelector('.c3-legend-item').textContent 
-    let data = (legend == 'deaths') ? this.deaths : this.cases
+    let data, changeData;
+
+    if (legend === 'deaths') {
+      data = this.deaths
+      changeData = this.changeDeaths
+    } else {
+      data = this.cases
+      changeData = this.changeCases
+    }
 
     // Render chart
     chart.load({
       unload: true,
       columns: [
         ['x', ...this.dates.slice(0, this.days)],
-        [legend, ...data.slice(0, this.days)]
+        [legend, ...data.slice(0, this.days)],
+        ['change', ...changeData.slice(0, this.days)]
       ],
     })
   }
@@ -200,27 +213,4 @@ class Search {
         data       
     })
   }
-
-    // Method for rendering changes in chart
-    // showData(graph, chart, all=false) {
-    //   // Check to see if currently showing all dates or 15 dates and set data accordiongly
-    //   let data = []
-
-    //   if (graph === 'cases') {
-    //     data = ['cases', ...this.cases]
-    //   } else if (graph === 'deaths') {
-    //     data = ['deaths', ...this.deaths]
-    //   } else if (graph === 'changeDeaths') {
-    //     data = ['changeDeaths', ...this.changeDeaths]
-    //   } else if (graph === 'changeCases') {
-    //     data = ['changeCases', ...this.changeCases]
-    //     }
-    //   data = all ? ['cases', ...data] : ['cases', ...data.slice(0, this.days)]
-    //   chart.load({
-    //     unload: true,
-    //     columns: [
-    //       data       
-    //     ]
-    //   })
-    // }
 }

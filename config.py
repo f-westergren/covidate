@@ -1,7 +1,7 @@
 import os
 
 class Config():
-	DEBUG = False
+	DEBUG = True
 	TESTING = True
 
 	SQLALCHEMY_TRACK_MODIFICATIONS = False

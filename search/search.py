@@ -24,6 +24,8 @@ def search():
 		# If answer is not a dict with results, return error message.
 		if type(location) != dict:
 			return 'invalid location'
+			# Return 400 something error if caused user
+			# If cause by me the 500 something
 
     # Turn date object into string
 		date = str(form.date.data)
@@ -39,7 +41,7 @@ def search():
 
 		return jsonify(covid_data)
 		
-	return 'invalid request'
+	return 'Bad request', 400
 
 	""" Show search or search result """
 
@@ -69,6 +71,8 @@ def load_search():
 	s.deaths = s.deaths.split(',')
 	s.dates = s.dates.split(',')
 	s.cases = s.cases.split(',')
+	s.change_cases = s.change_cases.split(',')
+	s.change_deaths = s.change_deaths.split(',')
 
 	return jsonify(s.serialize())
 
