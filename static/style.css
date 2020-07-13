@@ -1,3 +1,17 @@
+body, html {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  display: flex;
+  flex-direction: column;
+}
+
+footer{
+  margin-top:auto;
+}
+
 #saved-search div {
   cursor: pointer;
   transition: box-shadow .3s;
@@ -26,7 +40,6 @@
 }
 
 .btn {
-  height: 3.1rem;
   font-weight: bold;
 }
 
@@ -65,7 +78,4 @@ a.btn {
     min-height: 20rem;
   }
 
-  .footer {
-    display: none;
-  }
 }

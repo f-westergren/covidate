@@ -1,21 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="col">
-    <div class="row">
-      <div class="col">
-        <h1 class="display-5" style="color: #575761;">Covid-19 Outbreak Search</h1></div>
-    </div>
-    <div class="row">
-      <div class="col" >
-        <p style="color: #575761; font-size: 1.3rem;">
+<div class="row d-flex justify-content-center align-items-center">
+  <div class="col-md-6">
+    <h1 class="display-5" style="color: #575761;">Covid-19 Outbreak Search</h1>
+    <p style="color: #575761; font-size: 1.3rem;">
           CoviDate helps you track outbreaks of Covid-19 in USA following certain events
           and public gatherings. Enter a location and date and follow the change in cases 
           and deaths.
-        </p>
-        <p></p>
-      </div>
-    </div>
+    </p>
   </div>
   <div class="col-md-6 border rounded bg-white shadow-lg">
     <div class="row justify-content-center">
@@ -46,7 +39,7 @@
               />
             </div>
           </div>
-            <div class="row justify-content-center">
+            <div class="row">
               <div class="col">
                 <span class='form-text text-danger d-none text-center' id='search-error'></span>
                 <button class="btn btn-primary my-4 rounded shadow float-right" type="submit">Search</button>
@@ -55,7 +48,7 @@
         </form>
       </div>
     </div>
-    <div class="row justify-content-center align-items-center" >
+    <div class="row" >
       <div class="col">
         <div id="cases-chart"></div>
         <div class="text-center d-none mb-2" id="loader">
@@ -66,15 +59,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col text-center mb-4">
-        <button class="btn btn-primary d-none" id="date-btn">Show Until Today</button>
-        <button class="btn btn-primary d-none ml-2 cases" id="toggle-btn">Show Deaths</button>
-        <button class="btn btn-primary d-none ml-2" id="save-btn">Save Search</button>
-      </div>  
-    </div>
-    <div class="row">
-      <div class="col text-center mb-4">
-        <button class="btn btn-primary" id="change-btn">Show Change</button>
+      <div class="col text-center">
+        <button class="btn btn-primary d-none m-2" id="date-btn">Show to today</button>
+        <button class="btn btn-primary d-none cases m-2" id="toggle-btn">Show deaths</button>
+        <button class="btn btn-primary d-none m-2" id="save-btn">Save search</button>
+        <button class="btn btn-primary d-none m-2" id="change-btn">Show change</button>
       </div>  
     </div>
     <div class="row">
