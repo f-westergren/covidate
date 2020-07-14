@@ -20,11 +20,11 @@ let description = undefined
 const toggleAllDates = (e) => {
   if (!showDates) {
     currentSearch.showAllDates(chart)
-    e.target.innerText = 'Show 15 days'
+    e.target.innerText = '15 days'
     showDates = true
   } else {
     currentSearch.showFifteenDates(chart)
-    e.target.innerText = 'Show to today'
+    e.target.innerText = 'Today'
     showDates = false
   }
 }
@@ -35,10 +35,10 @@ const toggleDeaths = (e) => {
   
   if (legend == 'deaths') {
     currentSearch.showCases(showDates, chart)
-    e.target.innerText = 'Show deaths'
+    e.target.innerText = 'Deaths'
   } else {
     currentSearch.showDeaths(showDates, chart)
-    e.target.innerText = 'Show cases'
+    e.target.innerText = 'Cases'
   }
 }
 
@@ -66,7 +66,8 @@ async function processForm(e) {
 
   // Show buttons
   show([toggleBtn, dateBtn, saveBtn, changeBtn])
-  dateBtn.innerText='Show to today'
+  dateBtn.innerText='Today'
+  changeBtn.innerText='Show change'
 
   // Hide and update error divs and buttons.
   hide([saveError, searchError, loader])
@@ -76,7 +77,7 @@ async function processForm(e) {
   } catch (err) {
     hide([loader])
     show([searchError])
-    searchError.innerText = err
+    searchError.innerText = err.response.data
   }
 }
 

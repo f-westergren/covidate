@@ -51,7 +51,7 @@ const toggleAllDates = (e) => {
     showDates = true
   } else {
     savedSearch.showFifteenDates(chart)
-    e.target.innerText = 'To search date'
+    e.target.innerText = 'Search date'
     showDates = false
   }
 }
@@ -61,10 +61,10 @@ const toggleDeaths = (e) => {
   let legend = document.querySelector('.c3-legend-item').textContent
   if (legend == 'deaths') {
     savedSearch.showCases(showDates, chart)
-    e.target.innerText = 'Show deaths'
+    e.target.innerText = 'Deaths'
   } else {
     savedSearch.showDeaths(showDates, chart)
-    e.target.innerText = 'Show cases'
+    e.target.innerText = 'Cases'
   }
 }
 
