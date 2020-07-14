@@ -23,7 +23,7 @@ def search():
     
 		# If answer is not a dict with results, return error message.
 		if type(location) != dict:
-			return 'invalid location'
+			return location, 400
 			# Return 400 something error if caused user
 			# If cause by me the 500 something
 
@@ -37,7 +37,7 @@ def search():
 		covid_data = get_covid_data(date, state, county)
 
 		if type(covid_data) != dict:
-			return covid_data
+			return covid_data, 400
 
 		return jsonify(covid_data)
 		
@@ -73,6 +73,10 @@ def load_search():
 	s.cases = s.cases.split(',')
 	s.change_cases = s.change_cases.split(',')
 	s.change_deaths = s.change_deaths.split(',')
+
+	#First instance need to be None
+	s.change_cases[0] = None
+	s.change_deaths[0] = None
 
 	return jsonify(s.serialize())
 

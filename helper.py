@@ -28,11 +28,11 @@ def get_state_and_county(location):
 
   # If country not USA
   if country != 'US':
-    return 'not usa'
+    return 'Please select a location in the US.'
 
   # If no county
   if county == '':
-    return "no county"
+    return "Can't find county for location."
 
   # Strip 'County/Parish' from county name (except DC)
   if ' ' in county and county != "District of Columbia":
@@ -51,7 +51,7 @@ def get_covid_data(date, state, county):
   days = diff.days
 
   if days < 2:
-    return 'invalid date'
+    return 'Please select an earlier date.'
   res = requests.get(f'{BASE_COVID_API_URL}/{state}', params={'lastdays': days})
 
   for c in res.json():
@@ -72,7 +72,7 @@ def get_covid_data(date, state, county):
         'change_deaths': change_deaths
       }
 
-  return 'no data'
+  return "Can't generate data for search."
 
 def serialize(obj):
   dict = {}

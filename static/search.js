@@ -19,27 +19,13 @@ class Search {
   // Create and return a new search.
   // Makes POST request to backend and returns newly-created search
   static async create(location, date) {
-    const response = await axios.post('/search', {
-      "location": location,
-      "date": date,
-      "saved": false
+      const response = await axios.post('/search', {
+        "location": location,
+        "date": date,
+        "saved": false
     })
-    if (response.data === 'not usa') {
-      throw new Error('Please select a location in the US.')
-    } else if (response.data === 'no county') {
-      throw new Error("Can't find county data for the requested location.")
-    } else if (response.data === 'invalid date') {
-      throw new Error('Please select an earlier date.')
-    } else if (response.data === 'no data') { 
-      throw new Error('Unfortunately we have no data for the requested search.')
-    } else if (response.data === "Can't create search right now." || !response.data.cases || !Array.isArray(response.data.cases)) {
-      throw new Error('An unexpected error has occured, please try again later.')
-    }
-
-    const newSearch = new Search(response.data, location.replace(', US', ''), date)
+    const newSearch = new Search(response.data, location, date)
     return newSearch
-
-  // request to post to searches to save data if user is logegd in
 }
 
   async save(description=undefined) {
@@ -112,7 +98,7 @@ class Search {
         y: {
           tick: {
               format: function (d) {
-                  return (parseInt(d) == d) ? d : null;
+                  return (parseInt(d) == d) ? d : null; // Remove decimals on y axis
               }
           }
         }
@@ -195,7 +181,10 @@ class Search {
   showDeaths(all=false, chart) {
     console.log('DEATHS', this.changeDeaths, this.changeCases)
     // Check to see if currently showing all dates or 15 dates and set data accordiongly
-    let data = all ? [['deaths', ...this.deaths], ['change', ...this.changeDeaths]] : [['deaths', ...this.deaths.slice(0, this.days)], ['change', ...this.changeDeaths.slice(0, this.days)]]
+    let data = all ? 
+      [['deaths', ...this.deaths], ['change', ...this.changeDeaths]] 
+      : 
+      [['deaths', ...this.deaths.slice(0, this.days)], ['change', ...this.changeDeaths.slice(0, this.days)]]
     chart.load({
       unload: true,
       columns: 
@@ -206,7 +195,10 @@ class Search {
   // Method for rendering cases in chart
   showCases(all=false, chart) {
     // Check to see if currently showing all dates or 15 dates and set data accordiongly
-    let data = all ? [['cases', ...this.cases], ['change', ...this.changeCases]] : [['cases', ...this.cases.slice(0, this.days)], ['change', ...this.changeCases.slice(0, this.days)]]
+    let data = all ? 
+      [['cases', ...this.cases], ['change', ...this.changeCases]] 
+      : 
+      [['cases', ...this.cases.slice(0, this.days)], ['change', ...this.changeCases.slice(0, this.days)]]
     chart.load({
       unload: true,
       columns: 
