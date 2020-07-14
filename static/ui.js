@@ -77,7 +77,11 @@ async function processForm(e) {
   } catch (err) {
     hide([loader])
     show([searchError])
+    if (err.response == 400) {
     searchError.innerText = err.response.data
+    } else {
+      console.log(err)
+    }
   }
 }
 
