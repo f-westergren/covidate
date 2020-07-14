@@ -21,14 +21,6 @@ footer{
   box-shadow: 4px 4px 11px rgba(33,33,33,.7); 
 }
 
-#wrap {
-  width: 80%;
-  margin: 1em auto;
-  padding: 1em 5%;
-  background: #fff;
-  position: relative;
-}
-
 .profile-input {
   height: 3.1rem;
   border: none;
@@ -77,5 +69,10 @@ a.btn {
   #saved-chart {
     min-height: 20rem;
   }
+}
 
+@media(max-width: 600px){
+  .footer {
+    display: none
+  }
 }
