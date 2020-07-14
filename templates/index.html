@@ -2,15 +2,15 @@
 
 {% block content %}
 <div class="row d-flex justify-content-center align-items-center">
-  <div class="col-md-6">
+  <div class="col-lg-6">
     <h1 class="display-5" style="color: #575761;">Covid-19 Outbreak Search</h1>
     <p style="color: #575761; font-size: 1.3rem;">
           CoviDate helps you track outbreaks of Covid-19 in USA following certain events
-          and public gatherings. Enter a location and date and follow the change in cases 
-          and deaths.
+          and public gatherings. Data will be generated on a county level. Enter a location
+          and date and follow the change in cases and deaths.
     </p>
   </div>
-  <div class="col-md-6 border rounded bg-white shadow-lg">
+  <div class="col-lg-6 border rounded bg-white shadow-lg">
     <div class="row justify-content-center">
       <div class="col mt-4">
         <form id="search-form" method="POST">  
@@ -58,13 +58,12 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col text-center">
-        <button class="btn btn-primary d-none m-2" id="date-btn">Show to today</button>
-        <button class="btn btn-primary d-none cases m-2" id="toggle-btn">Show deaths</button>
-        <button class="btn btn-primary d-none m-2" id="save-btn">Save search</button>
-        <button class="btn btn-primary d-none m-2" id="change-btn">Show change</button>
-      </div>  
+    <div class="row justify-content-center mb-2">
+        <button class="btn btn-primary d-none m-1" id="date-btn">Today</button>
+        <button class="btn btn-primary d-none m-1" id="toggle-btn">Deaths</button>
+        <button class="btn btn-primary d-none m-1" id="save-btn">Save search</button>
+        <button class="btn btn-primary d-none m-1" id="change-btn">Show change</button>
+
     </div>
     <div class="row">
       <div class="col">
