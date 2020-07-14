@@ -28,12 +28,14 @@ class SearchRouteTestCase(TestCase):
 		db.session.commit()
 
 		self.searchObj = {
-			'location': 'In-test location',
-			'date': '2020-07-07',
-			'dates': '6-10-20,6-11-20,6-12-20,6-13-20,6-14-20',
-			'cases': '6916,6985,7051,7107,7151',
-			'deaths': '402,406,410,416,422',
-			'description': 'In-test description'
+      'location': 'Test location',
+      'date': '2020-07-07',
+      'dates': '6-10-20,6-11-20,6-12-20,6-13-20,6-14-20',
+      'deaths': '402,406,410,416,422',
+      'cases': '6916,6985,7051,7107,7151',
+      'change_deaths': '1,2,3,4,5',
+      'change_cases': '10,20,30,40,50',
+      'description': 'Test description'
 		}
 
 		self.testsearch = Search.create(self.searchObj)
@@ -73,8 +75,8 @@ class SearchRouteTestCase(TestCase):
 
 		data = res.data.decode("utf-8")
 
-		self.assertEqual(res.status_code, 200)
-		self.assertEqual(data, 'invalid date')
+		self.assertEqual(res.status_code, 400)
+		self.assertEqual(data, 'Please select an earlier date.')
 
 	def test_invalid_location(self):
 		data = json.dumps({'date': '2020-10-01', 'location': 'Sweden'})
@@ -85,8 +87,8 @@ class SearchRouteTestCase(TestCase):
 
 		data = res.data.decode("utf-8")
 
-		self.assertEqual(res.status_code, 200)
-		self.assertEqual(data, 'invalid location')
+		self.assertEqual(res.status_code, 400)
+		self.assertEqual(data, 'Please select a location in the US.')
 		
 	def test_save_search_not_logged_in(self):
 		data = json.dumps(self.searchObj)
@@ -142,7 +144,7 @@ class SearchRouteTestCase(TestCase):
 		self.assertEqual(len(data['cases']), 5)
 		self.assertEqual(len(data['cases']), len(data['deaths']))
 		self.assertEqual(len(data['cases']), len(data['dates']))
-		self.assertEqual(data['location'], 'In-test location')
+		self.assertEqual(data['location'], 'Test location')
 		self.assertEqual(data['date'], '2020-07-07')
 
   # def test_delete_search():

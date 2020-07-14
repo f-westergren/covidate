@@ -28,13 +28,15 @@ class UserRouteTestCase(TestCase):
 		self.testuser.id = self.testuser_id
 
 		self.testsearch = Search.create({
-			'location': 'Test location',
-			'date': '2020-07-07',
-			'dates': '6-10-20,6-11-20,6-12-20,6-13-20,6-14-20',
-			'deaths': '402,406,410,416,422',
-			'cases': '6916,6985,7051,7107,7151',
-			'created_at': datetime.now(),
-			'description': 'Test description'
+      'location': 'Test location',
+      'date': '2020-07-07',
+      'dates': '6-10-20,6-11-20,6-12-20,6-13-20,6-14-20',
+      'deaths': '402,406,410,416,422',
+      'cases': '6916,6985,7051,7107,7151',
+      'change_deaths': '1,2,3,4,5',
+      'change_cases': '10,20,30,40,50',
+      'created_at': datetime.now(),
+      'description': 'Test description'
 			})
 
 		self.testsearch_id = 2000
