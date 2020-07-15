@@ -103,6 +103,11 @@ class Search {
           }
         },
         y2: {
+          tick: {
+            format: function (d) {
+                return (parseInt(d) == d) ? d : null; // Remove decimals on y axis
+            }
+          },
           show: true
         }
       },
