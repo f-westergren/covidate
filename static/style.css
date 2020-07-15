@@ -61,6 +61,10 @@ a.btn {
   opacity: 0.8;
 }
 
+.c3-legend-item {
+  cursor:default !important;
+}
+
 @media(max-width: 800px){
   .icon {
   display: none;

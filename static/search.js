@@ -101,7 +101,13 @@ class Search {
                   return (parseInt(d) == d) ? d : null; // Remove decimals on y axis
               }
           }
+        },
+        y2: {
+          show: true
         }
+      },
+      legend: {
+        item: { onclick: function () {} }
       },
       tooltip: {
         format: {
