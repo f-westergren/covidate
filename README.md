@@ -1,21 +1,30 @@
-## Covid Event Spread Checker
+# CoviDate - Covid-19 Outbreak Tracker
+The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area in USA. The user will enter a date and a location and the website generates a response with information about the local spread of the virus on a county level from that date and three weeks forward.
 
-**Goal**
+The site is [deployed here](https://covidate.herokuapp.com/).
 
-The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area in USA (and later hopefully more countries). The user will enter a date and a location and the website will generate a response with about the spread (such as daily new cases etc) from that date and three weeks forward. 
+## Data
+The site uses two APIs:
 
-**Expected Users**
+1. [disease.sh](https://disease.sh/). A free-to-use multi-source open disease API. They source data from [John Hopkins University](https://github.com/CSSEGISandData/COVID-19) and [Worldometers](https://www.worldometers.info/coronavirus/) among others. 
+2. [Mapquest](https://developer.mapquest.com/). Their Geocoding API is used to for place search to determine the location the user wants to generate data for. 
 
-The website does not aim to provide a service to a specific demographic, it will simply provide a quick way for people to check the spread from one date to another without having to go through complex sites with a lot of charts and statistics. 
+## Features
+- Search for a location in the US and get information on the spread of Covid-19 in the region. 
+- Switch between deaths and cases, and toggle daily cases and deaths.
+- Display data from the selected date and 15 days forward, or until today's date.
+- Sign up for an account to be able to save searches and revisit them later.
+
+## User Flow
+1. On the landing page, the user can enter a location and date and generate a chart with data. Through the navbar the user can also log in and sign up.
+2. Once a search is generated the user can toggle between data for 15 dates from the selected search date or until today's date. The user can also toggle between showing number of deaths or cases, as well as showing a second graph with the daily change.
+3. Logged in users can enter a description for their search and save it. If a user isn't logged in they can still save the search, and will be redirected to the log in page. Once logged in the search will be saved.
+4. Logged in users can access their dashboard showing their saved searches. They can switch between the saved searches and toggle the same information as on the landing page. They can also choose to delete a search.
 
 
-**Data**
+## Tech Stack
+- Backend: Python, Flask, SQLAlchemy, Postgres
+- Frontend: Javascript, C3.js
 
-The website uses Mapquest's geolocation API (https://developer.mapquest.com/documentation/geocoding-api/) to let the user select a location for their search, and using that location it will get data from a suitable COVID-19 API. The data is pulled from NovelCOVID API (https://disease.sh/docs), which provides detailed historical information per county, province and subregion. 
-
-The database schema consists of two tables - users and searches. It can be found here: https://dbdiagram.io/d/5eeaab869ea313663b3ab643.
-
-
-**User Flow**
-
-The front page might feature some Covid-related news or some interesting date searches. Anyone who goes to the site can do a date search. Enter location date and get a result. C3.js is used to generate charts from the results. Functionality includes user registration, edit user, save searches, delete searches and copy searches. 
+## Database Diagram
+An overview of the database is set up can be found [here](https://dbdiagram.io/d/5eeaab869ea313663b3ab643).
