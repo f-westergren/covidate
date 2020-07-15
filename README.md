@@ -1,7 +1,7 @@
 # CoviDate - Covid-19 Outbreak Tracker
 The goal of this website is to help users research how events that involve big gatherings of people may have affected the spread of COVID-19 in their geographic area in USA. The user will enter a date and a location and the website generates a response with information about the local spread of the virus on a county level from that date and three weeks forward.
 
-The site is deployed here: [https://covidate.herokuapp.com/].
+The site is deployed here: https://covidate.herokuapp.com/.
 
 ## Data
 The site uses two APIs:
