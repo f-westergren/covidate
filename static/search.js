@@ -121,10 +121,10 @@ class Search {
               let diff = 0
               if (id === 'cases') {
                 diff = value - cases[0]
-                return `${value} (total increase of ${diff} ${id})`
+                return `${value} (inc of ${diff} ${id})`
               } else if (id === 'deaths') {
                 diff = value - deaths[0]
-                return `${value} (total increase of ${diff} ${id})`
+                return `${value} (inc of ${diff} ${id})`
               }
 
               return `Daily change: ${value}`
