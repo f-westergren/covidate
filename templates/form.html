@@ -12,6 +12,6 @@
       {% endfor %}
     </div>
     {% endfor %}
-    <button class="btn btn-secondary font-weight-bold mr-2">{{btnText}}</button>
+    <button class="btn btn-secondary mr-2">{{btnText}}</button>
     <a class="btn btn-outline-secondary font-weight-bold" href="{{ url_for(cancel, username=current_user.username) }}">Cancel</a>
   </form>

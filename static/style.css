@@ -1,15 +1,20 @@
-body, html {
-  height: 100%;
+body{
+  display: block;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
   width: 100%;
 }
 
-body{
-  display: flex;
-  flex-direction: column;
-}
-
-footer{
-  margin-top:auto;
+@media(min-width: 900px){
+  .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+  }
 }
 
 #saved-search div {
@@ -32,12 +37,6 @@ footer{
 }
 
 .btn {
-  font-weight: bold;
-}
-
-a.btn {
-  height: 3.1rem;
-  line-height: 2.1rem;
   font-weight: bold;
 }
 
@@ -75,7 +74,7 @@ a.btn {
   }
 }
 
-@media(max-width: 600px){
+@media(max-width: 800px){
   .footer {
     display: none
   }
