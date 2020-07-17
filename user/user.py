@@ -87,7 +87,7 @@ def edit_password(username):
 def searches(username):
 	""" Show user's searches thumbnails """
 	
-	return render_template('/searches.html', user=current_user, color="#99d3FF")
+	return render_template('/searches.html', user=current_user, color="#FFF199")
 
 @user_bp.route('/user/<username>/delete', methods=['POST'])
 @login_required

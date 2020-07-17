@@ -45,7 +45,7 @@ def login():
 
 		flash("Invalid credentials.", 'danger')
 		
-	return render_template('/login.html', form=form, btnText="Log in", cancel='index', color="#FFF199")
+	return render_template('/login.html', form=form, btnText="Log in", cancel='index', color="#99d3FF")
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -80,7 +80,7 @@ def signup():
 		login_user(user)
 		return redirect(url_for('index'))
 	
-	return render_template('signup.html', form=form, btnText="Sign Up", cancel='index', color="#FFF199")
+	return render_template('signup.html', form=form, btnText="Sign Up", cancel='index', color="#99d3FF")
 
 @auth_bp.route('/logout')
 @login_required
