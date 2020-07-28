@@ -72,9 +72,7 @@ body{
   #saved-chart {
     min-height: 20rem;
   }
-}
 
-@media(max-width: 800px){
   .footer {
     display: none
   }
